@@ -1,3 +1,4 @@
 [submodule "themes/prontera"]
 	path = themes/prontera
-	url = https://github.com/AngryPowman/hexo-theme-prontera
+	url = https://github.com/narutohinata/hexo-theme-prontera.git
+	branch = master
