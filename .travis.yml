@@ -4,7 +4,7 @@ install:
   - yarn
 node_js:
   - "node"
-  - 16 # use nodejs v10 LTS-
+  - 10 # use nodejs v10 LTS-
 after_success:
   - git config --global user.name "chromer"
   - git config --global user.email "chuliang2013@gmail.com"
