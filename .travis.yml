@@ -21,4 +21,4 @@ deploy:
   keep_history: true
   on:
     branch: main
-  local-dir: public
+  local_dir: public
