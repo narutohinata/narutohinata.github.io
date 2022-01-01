@@ -1,5 +1,7 @@
 os: linux
 language: node_js
+install:
+  - yarn
 node_js:
   - "node"
   - 16 # use nodejs v10 LTS-
