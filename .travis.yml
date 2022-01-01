@@ -1,7 +1,8 @@
+os: linux
 language: node_js
 node_js:
   - "node"
-  - 10 # use nodejs v10 LTS-
+  - 16 # use nodejs v10 LTS-
 after_success:
   - git config --global user.name "chromer"
   - git config --global user.email "chuliang2013@gmail.com"
@@ -12,10 +13,11 @@ branches:
 script:
   - hexo generate # generate static files
 deploy:
+  strategy: git
   provider: pages
-  skip-cleanup: true
-  github-token: $GH_TOKEN
-  keep-history: true
+  cleanup: false
+  token: $GH_TOKEN
+  keep_history: true
   on:
     branch: main
   local-dir: public
