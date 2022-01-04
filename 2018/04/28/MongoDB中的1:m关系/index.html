@@ -1,5 +1,107 @@
-<!DOCTYPE html><html lang="zh-cn"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> MongonDB中的1:m关系 · Chromer's Blog</title><meta name="description" content="MongonDB中的1:m关系 - chromer"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/favicon.ico"><link rel="stylesheet" href="/css/prontera.css"><link rel="search" type="application/opensearchdescription+xml" href="http://narutohinata.github.io/atom.xml" title="Chromer's Blog"><meta name="generator" content="Hexo 5.4.0"><link rel="alternate" href="/atom.xml" title="Chromer's Blog" type="application/atom+xml">
-</head><body><header class="feature-header"><nav class="component-nav"><ul><div class="logo-container"><a href="/"><h2 class="title">Chromer's Blog</h2></a></div><a href="/" target="_self" class="li component-nav-item"><p>INDEX</p></a><a href="/archives" target="_self" class="li component-nav-item"><p>ARCHIVES</p></a><a href="/tags" target="_self" class="li component-nav-item"><p>TAGS</p></a><a href="/categories" target="_self" class="li component-nav-item"><p>CATEGORIES</p></a><ul class="shortcut-icons"><a href="https://github.com/narutohinata" target="_blank"><img src="/images/github.svg" class="icon"></a><a href="/atom.xml" target="_blank"><img src="/images/rss.svg" class="icon"></a></ul></ul></nav></header><main class="container"><div id="post-container"><div class="post"><article class="post-block"><h1 class="post-title">MongonDB中的1:m关系</h1><div class="post-info">2018年4月28日</div><div class="post-content"><p>在博客系统中用户(user)和博文(post)是1对多关系,在mongodb中我们怎么表述这种关系呢？在mongo中我们可以利用在多端保存1端的<code>ObjectId</code>来维持这种<code>1:m</code>关系,下面分别列出<code>user</code>和<code>post</code>的结构:</p>
+<!DOCTYPE html>
+<html lang="zh-cn">
+  <head><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+<meta name="description" content="MongonDB中的1:m关系"/><link rel="alternate" href="/atom.xml" title="Chromer's Blog" type="application/atom+xml"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=2.11.1" />
+<link rel="canonical" href="http://narutohinata.github.io/2018/04/28/MongoDB中的1:m关系/"/>
+
+<link rel="stylesheet" type="text/css" href="/lib/fancybox/jquery.fancybox.css" />
+<link rel="stylesheet" type="text/css" href="/css/style.css?v=2.11.1" />
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=Chromer"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'Chromer');
+</script><script>
+  window.config = {"leancloud":{"app_id":null,"app_key":null},"toc":true,"fancybox":true,"pjax":"","latex":false};
+</script>
+
+    <title>MongonDB中的1:m关系 - Chromer's Blog</title>
+  <meta name="generator" content="Hexo 5.4.0"></head>
+
+  <body><div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/." class="logo">Chromer's Blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list"><a href="/">
+        <li class="mobile-menu-item">Home
+          </li>
+      </a><a href="/archives/">
+        <li class="mobile-menu-item">Archives
+          </li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags
+          </li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories
+          </li>
+      </a></ul>
+</nav>
+<div class="container" id="mobile-panel">
+      <header id="header" class="header"><div class="logo-wrapper">
+  <a href="/." class="logo">Chromer's Blog</a>
+</div>
+
+<nav class="site-navbar"><ul id="menu" class="menu"><li class="menu-item">
+          <a class="menu-item-link" href="/">
+            Home
+            </a>
+        </li>
+      <li class="menu-item">
+          <a class="menu-item-link" href="/archives/">
+            Archives
+            </a>
+        </li>
+      <li class="menu-item">
+          <a class="menu-item-link" href="/tags/">
+            Tags
+            </a>
+        </li>
+      <li class="menu-item">
+          <a class="menu-item-link" href="/categories/">
+            Categories
+            </a>
+        </li>
+      </ul></nav>
+</header>
+
+      <main id="main" class="main">
+        <div class="content-wrapper">
+          <div id="content" class="content"><article class="post">
+    <header class="post-header">
+      <h1 class="post-title">MongonDB中的1:m关系
+        </h1>
+
+      <div class="post-meta">
+        <span class="post-time">
+          2018-04-28
+        </span></div>
+    </header>
+
+    <div class="post-content"><p>在博客系统中用户(user)和博文(post)是1对多关系,在mongodb中我们怎么表述这种关系呢？在mongo中我们可以利用在多端保存1端的<code>ObjectId</code>来维持这种<code>1:m</code>关系,下面分别列出<code>user</code>和<code>post</code>的结构:</p>
 <ol>
 <li><code>user</code>的结构<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">&quot;_id&quot;</span> : ObjectId(<span class="string">&quot;5ae3caa35ece85125d2429f7&quot;</span>),</span><br><span class="line">    <span class="attr">&quot;username&quot;</span> : <span class="string">&quot;百思可乐1&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;password&quot;</span> : <span class="string">&quot;123456&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;age&quot;</span> : <span class="number">21</span>,</span><br><span class="line">    <span class="attr">&quot;updateAt&quot;</span> : ISODate(<span class="string">&quot;2018-04-28T01:11:54.698Z&quot;</span>),</span><br><span class="line">    <span class="attr">&quot;createdAt&quot;</span> : ISODate(<span class="string">&quot;2018-04-28T01:11:54.698Z&quot;</span>),</span><br><span class="line">    <span class="attr">&quot;__v&quot;</span> : <span class="number">0</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
 </ol>
@@ -20,4 +122,64 @@
 <li><p>用户创建文章</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> user = db.user.findOne();</span><br><span class="line"><span class="keyword">var</span> posts = db.post.insert(</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="attr">title</span>: <span class="string">&quot;ruby&quot;</span>,</span><br><span class="line">    <span class="attr">body</span>: <span class="string">&quot;sdasda&quot;</span>,</span><br><span class="line">    <span class="attr">author</span>: user._id</span><br><span class="line">  &#125;);</span><br></pre></td></tr></table></figure></li>
 </ol>
-</div></article></div></div></main><footer class="footer-container"><div class="paginator"><a href="/2018/04/28/%E6%88%91%E7%9A%84%E4%BB%A3%E7%A0%81%E5%B0%8F%E7%89%87%E6%AE%B5/" class="prev">上一篇</a><a href="/2018/04/10/Node%E6%A8%A1%E5%9D%97%E5%88%97%E8%A1%A8/" class="next">下一篇</a></div><div class="copyright"><p>© 2021 - 2022 <a href="http://narutohinata.github.io">chromer</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/AngryPowman/hexo-theme-prontera" target="_blank">hexo-theme-prontera</a>.</p></div></footer><script>(function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;e=o.createElement(i);r=o.getElementsByTagName(i)[0];e.src='//www.google-analytics.com/analytics.js';r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));ga('create',"Chromer",'auto');ga('send','pageview');</script></body></html>
+
+      </div>
+      <div class="post-copyright">
+    <p class="copyright-item">
+      <span>Author: </span>
+      <a href="http://narutohinata.github.io">chromer</a>
+    </p>
+    <p class="copyright-item">
+      <span>Link: </span>
+      <a href="http://narutohinata.github.io/2018/04/28/MongoDB%E4%B8%AD%E7%9A%841:m%E5%85%B3%E7%B3%BB/">http://narutohinata.github.io/2018/04/28/MongoDB%E4%B8%AD%E7%9A%841:m%E5%85%B3%E7%B3%BB/</a>
+    </p>
+    <p class="copyright-item">
+      <span>License: </span><a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank">知识共享署名-非商业性使用 4.0 国际许可协议</a>
+    </p>
+  </div>
+      <footer class="post-footer">
+        
+        <nav class="post-nav"><a class="prev" href="/2018/04/28/%E6%88%91%E7%9A%84%E4%BB%A3%E7%A0%81%E5%B0%8F%E7%89%87%E6%AE%B5/">
+        <i class="iconfont icon-left"></i>
+        <span class="prev-text nav-default">我的代码小片段</span>
+        <span class="prev-text nav-mobile">Prev</span>
+      </a>
+    <a class="next" href="/2018/04/10/Node%E6%A8%A1%E5%9D%97%E5%88%97%E8%A1%A8/">
+        <span class="next-text nav-default">Node模块列表</span>
+        <span class="prev-text nav-mobile">Next</span>
+        <i class="iconfont icon-right"></i>
+      </a>
+    </nav></footer>
+    </article></div><div class="comments" id="comments"></div></div>
+      </main>
+
+      <footer id="footer" class="footer"><div class="social-links"><a href="mailto:chuliang2013@gmail.com" class="iconfont icon-email" title="email"></a>
+        <a target="_blank" rel="noopener" href="https://github.com/narutohinata" class="iconfont icon-github" title="github"></a>
+        <a href="/atom.xml" class="iconfont icon-rss" title="rss"></a>
+    </div><div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" target="_blank" rel="noopener" href="https://github.com/ahonn/hexo-theme-even">Even</a>
+  </span>
+
+  <span class="copyright-year">&copy;2016 - 2022<span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">chromer</span>
+  </span>
+</div>
+</footer>
+
+      <div class="back-to-top" id="back-to-top">
+        <i class="iconfont icon-up"></i>
+      </div>
+    </div><script type="text/javascript" src="/lib/jquery/jquery.min.js"></script>
+  <script type="text/javascript" src="/lib/slideout/slideout.js"></script>
+  <script type="text/javascript" src="/lib/fancybox/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/src/even.js?v=2.11.1"></script>
+</body>
+</html>
