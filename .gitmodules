@@ -1,4 +1,4 @@
 [submodule "themes/even"]
 	path = themes/even
-	url = git@github.com:narutohinata/hexo-theme-even.git
+	url = https://github.com/narutohinata/narutohinata.github.io.git
   branch = master
