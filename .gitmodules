@@ -1,4 +1,4 @@
-[submodule "themes/prontera"]
-	path = themes/prontera
-	url = https://github.com/narutohinata/hexo-theme-prontera.git
-	branch = master
+[submodule "themes/even"]
+	path = themes/even
+	url = git@github.com:narutohinata/hexo-theme-even.git
+  branch = master
