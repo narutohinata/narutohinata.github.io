@@ -2,7 +2,7 @@
 title: 为啥Redis使用跳表而不是使用红黑树
 date: 2020-04-28 15:57:29
 desc: 
-tags: ['Redis']
+tags: Redis
 ---
 
 There are a few reasons:

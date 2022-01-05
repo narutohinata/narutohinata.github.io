@@ -3,6 +3,7 @@ title: Module的include和extend的区别
 date: 2016-11-06 08:57:05
 desc:
 tags:
+  - ruby
 ---
 在`ruby`中我们经常用`Module`来扩展类的功能，我们常常看到这样的代码：
 ```ruby

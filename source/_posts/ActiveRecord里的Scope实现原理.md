@@ -1,7 +1,9 @@
 ---
 title: ActiveRecord里的Scope实现原理
 date: 2017-03-05 11:52:37
-tags: Rails
+tags: 
+  - Rails
+  - ActiveRecord
 categories: Ruby
 ---
 # scope的用法

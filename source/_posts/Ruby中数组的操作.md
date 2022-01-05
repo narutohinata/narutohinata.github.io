@@ -2,7 +2,7 @@
 title: Ruby中数组的操作
 date: 2016-09-21 09:26:15
 desc: 小记
-tags:
+tags: ruby
 ---
 
 ```ruby

@@ -2,7 +2,7 @@
 title: R大博客里对闭包的解释【转】
 date: 2018-06-08 11:27:49
 desc:
-tags:
+tags: 转载 闭包
 ---
 > [转自 RednaxelaFX 博客评论](http://rednaxelafx.iteye.com/blog/245022)
 

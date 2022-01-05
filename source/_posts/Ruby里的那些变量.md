@@ -2,6 +2,7 @@
 title: Ruby里的那些变量
 date: 2016-9-1 11:11:11
 desc: 介绍ruby里的那些变量
+tags: ruby
 ---
 
 ## 实例变量(instance variable)

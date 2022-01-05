@@ -1,8 +1,9 @@
 ---
-title: MongonDB中的1:m关系
+title: MongoDB中的1:m关系
 date: 2018-04-28 13:15:05
 desc:
 tags:
+  - mongodb
 ---
 
 在博客系统中用户(user)和博文(post)是1对多关系,在mongodb中我们怎么表述这种关系呢？在mongo中我们可以利用在多端保存1端的`ObjectId`来维持这种`1:m`关系,下面分别列出`user`和`post`的结构:

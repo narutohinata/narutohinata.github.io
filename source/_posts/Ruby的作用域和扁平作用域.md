@@ -2,7 +2,7 @@
 title: Ruby的作用域和扁平作用域
 date: 2016-09-010 09:26:15
 desc: 
-tags:
+tags: ruby
 ---
 在`Ruby`中的作用域和`java`不太一样,它没类似`java`的内部作用域和嵌套作用域,在`java`中我们可能写出这样的代码:
 ```java

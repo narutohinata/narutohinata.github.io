@@ -3,6 +3,8 @@ title: 'ActiveSupport::Concern实现原理'
 date: 2017-05-11 18:12:26
 desc:
 tags:
+  - activeSupport
+  - rails
 ---
 在`Rails`中我们经常将可复用的代码放在`Concern`中以防止`fat model`具体用法如下(取自rubychina源码)：
 ```ruby

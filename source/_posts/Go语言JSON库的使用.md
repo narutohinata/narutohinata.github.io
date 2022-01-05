@@ -1,8 +1,11 @@
 ---
 title: Go语言JSON库的使用
 date: 2018-03-05 11:52:37
-tags: Rails
-categories: Ruby
+tags: 
+  - golang
+  - json
+categories: 
+  - golang
 ---
 
 ```json
