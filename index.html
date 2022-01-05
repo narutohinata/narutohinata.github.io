@@ -90,202 +90,124 @@
 
       <main id="main" class="main">
         <div class="content-wrapper">
-          <div id="content" class="content"><section id="posts" class="posts"><article class="post">
-    <header class="post-header">
-      <h1 class="post-title"><a class="post-link" href="/2022/01/03/%E7%A7%91%E9%87%8C%E5%8C%96/">科里化</a>
-        </h1>
-
-      <div class="post-meta">
-        <span class="post-time">
-          2022-01-03
-        </span></div>
-    </header>
-
-    <div class="post-content"><h2 id="科里化"><a href="#科里化" class="headerlink" title="科里化"></a>科里化</h2><p>科里化是把接受多个<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E5%8F%83%E6%95%B8_(%E7%A8%8B%E5%BC%8F%E8%A8%AD%E8%A8%88)">参数</a>的<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E5%87%BD%E6%95%B0">函数</a>变换成接受一个单一参数（最初函数的第一个参数）的函数，并且返回接受余下的参数而且返回结果的新函数的技术。例如:</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Add</span>(<span class="params">a, b</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> a + b;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> _add = curry(Add);</span><br><span class="line"></span><br><span class="line">_add(<span class="number">10</span>)(<span class="number">20</span>); <span class="comment">//此次等价于Add(10, 20)</span></span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="实现自己的科里化函数"><a href="#实现自己的科里化函数" class="headerlink" title="实现自己的科里化函数"></a>实现自己的科里化函数</h3><p><img src="https://chromer-blog.oss-cn-shanghai.aliyuncs.com/blog/code-b856e3a4d3390885a667fa79c30bc9750ea4006899fff1bf5930f1321b177f97.png" alt="code"></p>
-
-        </div></article>
-      <article class="post">
-    <header class="post-header">
-      <h1 class="post-title"><a class="post-link" href="/2020/04/28/%E4%B8%BA%E5%95%A5Redis%E4%BD%BF%E7%94%A8%E8%B7%B3%E8%A1%A8%E8%80%8C%E4%B8%8D%E6%98%AF%E4%BD%BF%E7%94%A8%E7%BA%A2%E9%BB%91%E6%A0%91/">为啥Redis使用跳表而不是使用红黑树</a>
-        </h1>
-
-      <div class="post-meta">
-        <span class="post-time">
-          2020-04-28
-        </span></div>
-    </header>
-
-    <div class="post-content"><p>There are a few reasons:</p>
-<ol>
-<li>They are not very memory intensive. It’s up to you basically. Changing parameters about the probability of a node to have a given number of levels will make then less memory intensive than btrees.</li>
-<li>A sorted set is often target of many ZRANGE or ZREVRANGE operations, that is, traversing the skip list as a linked list. With this operation the cache locality of skip lists is at least as good as with other kind of balanced trees.</li>
-<li>They are simpler to implement, debug, and so forth. For instance thanks to the skip list simplicity I received a patch (already in Redis master) with augmented skip lists implementing ZRANK in O(log(N)). It required little changes to the code.</li>
-</ol>
-<p>About the Append Only durability &amp; speed, I don’t think it is a good idea to optimize Redis at cost of more code and more complexity for a use case that IMHO should be rare for the Redis target (fsync() at every command). Almost no one is using this feature even with ACID SQL databases, as the performance hint is big anyway.</p>
-<p>About threads: our experience shows that Redis is mostly I/O bound. I’m using threads to serve things from Virtual Memory. The long term solution to exploit all the cores, assuming your link is so fast that you can saturate a single core, is running multiple instances of Redis (no locks, almost fully scalable linearly with number of cores), and using the “Redis Cluster” solution that I plan to develop in the future.</p>
-
-        </div></article>
-      <article class="post">
-    <header class="post-header">
-      <h1 class="post-title"><a class="post-link" href="/2020/02/28/Golang%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C/">Golang文件操作</a>
-        </h1>
-
-      <div class="post-meta">
-        <span class="post-time">
-          2020-02-28
-        </span></div>
-    </header>
-
-    <div class="post-content"><h2 id="判断文件是否纯在"><a href="#判断文件是否纯在" class="headerlink" title="判断文件是否纯在"></a>判断文件是否纯在</h2><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">  <span class="string">&quot;fmt&quot;</span></span><br><span class="line">  <span class="string">&quot;os&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">  stat, err := os.Stat(<span class="string">&quot;~/Demo.txt&quot;</span>)</span><br><span class="line">  <span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">    fmt.Println(<span class="string">&quot;err is&quot;</span>, err)</span><br><span class="line">    <span class="keyword">if</span> os.IsNotExist(err) &#123;</span><br><span class="line">      fmt.Println(<span class="string">&quot;文件不纯在&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    fmt.Println(<span class="string">&quot;文件纯在!&quot;</span>)</span><br><span class="line">    fmt.Println(stat)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="文件间拷贝"><a href="#文件间拷贝" class="headerlink" title="文件间拷贝"></a>文件间拷贝</h2><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">  <span class="string">&quot;fmt&quot;</span></span><br><span class="line">  <span class="string">&quot;io&quot;</span></span><br><span class="line">  <span class="string">&quot;os&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">  srcFile, _ := os.OpenFile(<span class="string">&quot;~/in.txt&quot;</span>)</span><br><span class="line">  dstFile, _ := os.OpenFile(<span class="string">&quot;~/out.txt&quot;</span>)</span><br><span class="line">  written, err := io.Copy(dstFile, srcFile)</span><br><span class="line">  <span class="keyword">if</span> err == <span class="literal">nil</span> &#123;</span><br><span class="line">    fmt.Println(<span class="string">&quot;拷贝成功, 字节数=&quot;</span>, written)</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    fmt.Println(<span class="string">&quot;拷贝失败，err=&quot;</span>,err)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="缓冲式文件拷贝"><a href="#缓冲式文件拷贝" class="headerlink" title="缓冲式文件拷贝"></a>缓冲式文件拷贝</h2><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">&quot;bufio&quot;</span></span><br><span class="line">	<span class="string">&quot;fmt&quot;</span></span><br><span class="line">	<span class="string">&quot;io&quot;</span></span><br><span class="line">	<span class="string">&quot;os&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="comment">//打开源文件</span></span><br><span class="line">	srcfile, _ := os.OpenFile(<span class="string">&quot;~/in.txt&quot;</span>, os.O_RDONLY, <span class="number">0666</span>)</span><br><span class="line">	<span class="comment">//	打开目标文件</span></span><br><span class="line">	dstfile, _ := os.OpenFile(<span class="string">&quot;~/out.txt&quot;</span>, os.O_CREATE|os.O_WRONLY, <span class="number">0666</span>)</span><br><span class="line">	<span class="keyword">defer</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">		srcfile.Close()</span><br><span class="line">		dstfile.Close()</span><br><span class="line">		fmt.Println(<span class="string">&quot;文件已关闭&quot;</span>)</span><br><span class="line">	&#125;()</span><br><span class="line"></span><br><span class="line">	reader := bufio.NewReader(srcfile)</span><br><span class="line">	writer := bufio.NewWriter(dstfile)</span><br><span class="line">	buffer := <span class="built_in">make</span>([]<span class="keyword">byte</span>, <span class="number">1024</span>)</span><br><span class="line">	<span class="keyword">for</span>&#123;</span><br><span class="line">		_ , err := reader.Read(buffer)</span><br><span class="line">		<span class="keyword">if</span> err != <span class="literal">nil</span>&#123;</span><br><span class="line">			<span class="keyword">if</span> err == io.EOF&#123;</span><br><span class="line">				fmt.Println(<span class="string">&quot;源文件读取完毕&quot;</span>)</span><br><span class="line">				<span class="keyword">break</span></span><br><span class="line">			&#125;<span class="keyword">else</span> &#123;</span><br><span class="line">				fmt.Println(<span class="string">&quot;error&quot;</span>)</span><br><span class="line">				<span class="keyword">return</span></span><br><span class="line">			&#125;</span><br><span class="line">		&#125;<span class="keyword">else</span> &#123;</span><br><span class="line">			_, err1 := writer.Write(buffer)</span><br><span class="line">			<span class="keyword">if</span> err1 != <span class="literal">nil</span>&#123;</span><br><span class="line">				fmt.Println(err1)</span><br><span class="line">				<span class="keyword">return</span></span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-        </div></article>
-      <article class="post">
-    <header class="post-header">
-      <h1 class="post-title"><a class="post-link" href="/2020/01/01/CJS%E6%98%AF%E5%A6%82%E6%9E%9C%E5%A4%84%E7%90%86%E5%BE%AA%E7%8E%AF%E4%BE%9D%E8%B5%96%E7%9A%84/">CJS是如何处理循环依赖的</a>
-        </h1>
-
-      <div class="post-meta">
-        <span class="post-time">
-          2020-01-01
-        </span></div>
-    </header>
-
-    <div class="post-content"><h2 id="Commonjs是如何解决循环依赖"><a href="#Commonjs是如何解决循环依赖" class="headerlink" title="Commonjs是如何解决循环依赖"></a>Commonjs是如何解决循环依赖</h2><p>要回答这个问题我们先了解下<code>cjs</code> 的模块加载流程。当加载一个<code>cjs</code> 模块的时候会先缓存模块对象 <code>Module._cache[filename] = module</code>  然后再加载模块 <code>module.load(filename)</code> 。基于这个模块加载流程我们分析下面这个循环依赖的代码:</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// A.js</span></span><br><span class="line"><span class="built_in">exports</span>.name = <span class="string">&quot;A&quot;</span></span><br><span class="line"><span class="keyword">const</span> B = <span class="built_in">require</span>(<span class="string">&quot;B&quot;</span>)</span><br><span class="line"><span class="built_in">console</span>.log(B)</span><br><span class="line"><span class="built_in">exports</span>.data = <span class="string">&quot;Data-A&quot;</span></span><br></pre></td></tr></table></figure>
-
-
-
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// B.js</span></span><br><span class="line"><span class="built_in">exports</span>.name = <span class="string">&quot;B&quot;</span></span><br><span class="line"><span class="keyword">const</span> A = <span class="built_in">require</span>(<span class="string">&quot;A&quot;</span>)</span><br><span class="line"><span class="built_in">console</span>.log(A)</span><br><span class="line"><span class="built_in">exports</span>.data = <span class="string">&quot;Data-B&quot;</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>当我们执行<code>node A.js</code> 会输出什么？</p>
-<p>首先系统会先缓存A模块然后在加载A模块（也就是执行A里面的代码）， 然后当A代码执行到第二行 系统会去require B模块，同A模块一样,系统也是先缓存B模块 然后加载B模块，当B执行到第二行<code>const A = require(&quot;A&quot;)</code>的时候 系统会去加载A模块，但此次我们发现没有？A模块已经在缓存中了，只不过这个A模块还没加载完成 处于一种部分加载的状态。也就是B这里得到的A是个部分值(也就是A.js里在require(‘B’)上方exports出来的值 <code>&#123; name: &quot;A&quot; &#125; </code> )。然后B打印A的部分值<code>&#123; name: &quot;A&quot; &#125;</code> 然后执行最后一行代码后，module B模块加载完毕。此时执行权回到模块A，A这里得到的B是个完全加载的模块<code>&#123; name: &quot;B&quot;, data: &quot;Data-B&quot; &#125;</code> </p>
-<p>于是我们可以这样回答这个问题，cjs的模块加载流程是先缓存再加载。基于这个原理我们很容易发现，当出现循环依赖，我们拿到的是一个部分加载模块的部分值。</p>
-
-        </div></article>
-      <article class="post">
-    <header class="post-header">
-      <h1 class="post-title"><a class="post-link" href="/2019/03/03/Dom%E5%85%83%E7%B4%A0%E7%9A%84%E4%B8%80%E4%BA%9B%E5%AE%BD%E9%AB%98%E8%AE%A1%E7%AE%97%E5%80%BC/">Dom元素的一些宽高计算值</a>
-        </h1>
-
-      <div class="post-meta">
-        <span class="post-time">
-          2019-03-03
-        </span></div>
-    </header>
-
-    <div class="post-content">
-        </div></article>
-      <article class="post">
-    <header class="post-header">
-      <h1 class="post-title"><a class="post-link" href="/2018/06/08/R%E5%A4%A7%E5%8D%9A%E5%AE%A2%E9%87%8C%E5%AF%B9%E9%97%AD%E5%8C%85%E7%9A%84%E8%A7%A3%E9%87%8A%E3%80%90%E8%BD%AC%E3%80%91/">R大博客里对闭包的解释【转】</a>
-        </h1>
-
-      <div class="post-meta">
-        <span class="post-time">
-          2018-06-08
-        </span></div>
-    </header>
-
-    <div class="post-content"><blockquote>
-<p><a target="_blank" rel="noopener" href="http://rednaxelafx.iteye.com/blog/245022">转自 RednaxelaFX 博客评论</a></p>
-</blockquote>
-<p>我不理解你不理解的是什么……<code>闭包</code>的定义很好理解撒。要点有俩： </p>
-<ol>
-<li>一个含有<code>自由变量</code>的<code>函数</code>； </li>
-<li>这些自由变量所在的<code>环境</code>。</li>
-</ol>
-<p>外部环境持有内部函数所使用的自由变量，对内部函数形成“闭包”，就这样…… 简单但不严格的说，一个函数的“<code>自由变量</code>”就是既不是参数也不是局部变量的变量。 </p>
-          <div class="read-more">
-            <a href="/2018/06/08/R%E5%A4%A7%E5%8D%9A%E5%AE%A2%E9%87%8C%E5%AF%B9%E9%97%AD%E5%8C%85%E7%9A%84%E8%A7%A3%E9%87%8A%E3%80%90%E8%BD%AC%E3%80%91/" class="read-more-link">Read more..</a>
+          <div id="content" class="content"><section id="posts" class="posts"><section id="archive" class="archive"><div class="collection-title">
+            <h2 class="archive-year">2022</h2>
           </div>
-        </div></article>
-      <article class="post">
-    <header class="post-header">
-      <h1 class="post-title"><a class="post-link" href="/2018/06/06/javascript%E5%90%84%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E5%AE%9E%E7%8E%B0/">javascript各排序算法实现</a>
-        </h1>
-
-      <div class="post-meta">
-        <span class="post-time">
-          2018-06-06
-        </span><span class="post-category">
-            <a href="/categories/javascript/">javascript</a>
-            </span>
-        </div>
-    </header>
-
-    <div class="post-content"><ol>
-<li>冒泡排序(普通版)<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">bubble_sort</span>(<span class="params">data</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> i = data.length - <span class="number">1</span>; i &gt; <span class="number">0</span> ; i-- )&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> j = <span class="number">0</span>; j &lt; i; j++) &#123;</span><br><span class="line">      <span class="keyword">if</span> (data[j] &gt; data[j+<span class="number">1</span>]) &#123;</span><br><span class="line">        <span class="keyword">let</span> tmp = data[j+<span class="number">1</span>];</span><br><span class="line">        data[j+<span class="number">1</span>] = data[j];</span><br><span class="line">        data[j] = tmp;</span><br><span class="line">      &#125;      </span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
-<li>冒泡排序（改良版1)<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">bubble_sort1</span>(<span class="params">data</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> i = data.length - <span class="number">1</span>; i &gt; <span class="number">0</span> ; i-- )&#123;</span><br><span class="line">    <span class="keyword">let</span> tag = <span class="literal">true</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> j = <span class="number">0</span>; j &lt; i; j++) &#123;</span><br><span class="line">      <span class="keyword">if</span> (data[j] &gt; data[j+<span class="number">1</span>]) &#123;</span><br><span class="line">        <span class="keyword">let</span> tmp = data[j+<span class="number">1</span>];</span><br><span class="line">        data[j+<span class="number">1</span>] = data[j];</span><br><span class="line">        data[j] = tmp;</span><br><span class="line">        tag = <span class="literal">false</span>;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (tag) &#123;</span><br><span class="line">      <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-这里说下改良版的思路，上一个版本没有记录上一趟冒泡的排序状态，导致必须执行<code>n-1</code>趟排序。考虑最好的情况，如果一开始序列就是有序的，如果使用第一种排序的话，导致可以<code>O(n)</code>的解决的问题花了<code>O(n^2)</code>的时间了，这显然是不合适的，于是我们在每一趟排序开始前，设置一个表示序列是否有序的状态量(<code>let tag</code>)，并认为一开始是有序的(<code>true</code>)，然后在交换排序过程中一旦发生了交换就把状态量设置为无序状态（<code>false</code>)。然后在进行下一趟排序的时候检查这个状态量，如果是<code>true</code>则说明序列此时已经有序无需进行下一趟了直接返回就行了，如果为<code>false</code>则表示序列此时还是无序状态则需要进行下一趟排序。</li>
-</ol>
-
-        </div></article>
-      <article class="post">
-    <header class="post-header">
-      <h1 class="post-title"><a class="post-link" href="/2018/05/08/R%E8%AF%AD%E8%A8%80%E8%AF%AD%E6%B3%95%E3%80%90%E4%B8%80%E3%80%91/">R语言语法【一】</a>
-        </h1>
-
-      <div class="post-meta">
-        <span class="post-time">
-          2018-05-08
-        </span></div>
-    </header>
-
-    <div class="post-content"><h1 id="赋值语法"><a href="#赋值语法" class="headerlink" title="赋值语法"></a>赋值语法</h1><p>在R语言中赋值使用<code>&lt;-</code>,比如下面把10赋值给变量a:</p>
-<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">a&lt;-<span class="number">10</span></span><br></pre></td></tr></table></figure>
-          <div class="read-more">
-            <a href="/2018/05/08/R%E8%AF%AD%E8%A8%80%E8%AF%AD%E6%B3%95%E3%80%90%E4%B8%80%E3%80%91/" class="read-more-link">Read more..</a>
+        <div class="archive-post">
+        <span class="archive-post-time">
+          01-03
+          </span>
+        <span class="archive-post-title">
+          <a href="/2022/01/03/%E7%A7%91%E9%87%8C%E5%8C%96/" class="archive-post-link">
+            科里化
+          </a>
+        </span>
+      </div>
+    <div class="collection-title">
+            <h2 class="archive-year">2020</h2>
           </div>
-        </div></article>
-      <article class="post">
-    <header class="post-header">
-      <h1 class="post-title"><a class="post-link" href="/2018/05/08/Nodejs%E4%BB%A3%E7%A0%81%E7%89%87%E6%AE%B5/">Nodejs代码片段</a>
-        </h1>
-
-      <div class="post-meta">
-        <span class="post-time">
-          2018-05-08
-        </span></div>
-    </header>
-
-    <div class="post-content"><h1 id="Nodejs-Base64编码和解码"><a href="#Nodejs-Base64编码和解码" class="headerlink" title="Nodejs Base64编码和解码"></a>Nodejs <code>Base64</code>编码和解码</h1><ol>
-<li><p>Base64编码</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> str = <span class="string">&quot;我爱js&quot;</span>;</span><br><span class="line"><span class="keyword">var</span> decode_str = Buffer.from(str).toString(<span class="string">&#x27;base64&#x27;</span>) <span class="comment">// &gt; &#x27;5oiR54ixanM=&#x27;</span></span><br><span class="line"><span class="comment">// 或者这样：new Buffer(str).toString(&#x27;base64&#x27;) 【已弃用】</span></span><br></pre></td></tr></table></figure></li>
-<li><p>Base64解码</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> decode_str = <span class="string">&#x27;5oiR54ixanM=&#x27;</span>;</span><br><span class="line"><span class="keyword">var</span> str = Buffer.from(decode_str, <span class="string">&#x27;base64&#x27;</span>).toString() <span class="comment">// &gt; 我爱js</span></span><br></pre></td></tr></table></figure></li>
-</ol>
-
-        </div></article>
-      <article class="post">
-    <header class="post-header">
-      <h1 class="post-title"><a class="post-link" href="/2018/04/29/mongodb%E4%B8%8Bn-m%E5%85%B3%E7%B3%BB/">mongodb下n:m关系</a>
-        </h1>
-
-      <div class="post-meta">
-        <span class="post-time">
-          2018-04-29
-        </span></div>
-    </header>
-
-    <div class="post-content"><p>在用户关注系统中关注人和被关注人是<code>多对多关系</code>,在关系型数据库中我们很容易通过中间表关联实现这个功能。关注和取消关注无非就是对这个中间表的记录的增加和删除。那么在<code>mongodb</code>中如何实现这种多对多关系呢？我们知道<code>关注操作</code>就是<code>被关注操作</code>的逆操作，当用户<code>A</code>关注用户<code>B</code>的时候,也就是用户<code>B</code>被用户<code>A</code>关注了。那么我们可以在用户文档中维护一个用户关注的用户集合<code>followings</code>:</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">username</span>: <span class="string">&#x27;A&#x27;</span>,</span><br><span class="line">  <span class="attr">followings</span>: [ObjectId]</span><br><span class="line">&#125;,</span><br><span class="line">&#123;</span><br><span class="line">  <span class="attr">username</span>: <span class="string">&#x27;B&#x27;</span>,</span><br><span class="line">  <span class="attr">followings</span>: [ObjectId]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-          <div class="read-more">
-            <a href="/2018/04/29/mongodb%E4%B8%8Bn-m%E5%85%B3%E7%B3%BB/" class="read-more-link">Read more..</a>
+        <div class="archive-post">
+        <span class="archive-post-time">
+          04-28
+          </span>
+        <span class="archive-post-title">
+          <a href="/2020/04/28/%E4%B8%BA%E5%95%A5Redis%E4%BD%BF%E7%94%A8%E8%B7%B3%E8%A1%A8%E8%80%8C%E4%B8%8D%E6%98%AF%E4%BD%BF%E7%94%A8%E7%BA%A2%E9%BB%91%E6%A0%91/" class="archive-post-link">
+            为啥Redis使用跳表而不是使用红黑树
+          </a>
+        </span>
+      </div>
+    <div class="archive-post">
+        <span class="archive-post-time">
+          02-28
+          </span>
+        <span class="archive-post-title">
+          <a href="/2020/02/28/Golang%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C/" class="archive-post-link">
+            Golang文件操作
+          </a>
+        </span>
+      </div>
+    <div class="archive-post">
+        <span class="archive-post-time">
+          01-01
+          </span>
+        <span class="archive-post-title">
+          <a href="/2020/01/01/CJS%E6%98%AF%E5%A6%82%E6%9E%9C%E5%A4%84%E7%90%86%E5%BE%AA%E7%8E%AF%E4%BE%9D%E8%B5%96%E7%9A%84/" class="archive-post-link">
+            CJS是如何处理循环依赖的
+          </a>
+        </span>
+      </div>
+    <div class="collection-title">
+            <h2 class="archive-year">2019</h2>
           </div>
-        </div></article>
-      <nav class="pagination"><a class="next" href="/page/2/">
+        <div class="archive-post">
+        <span class="archive-post-time">
+          03-03
+          </span>
+        <span class="archive-post-title">
+          <a href="/2019/03/03/Dom%E5%85%83%E7%B4%A0%E7%9A%84%E4%B8%80%E4%BA%9B%E5%AE%BD%E9%AB%98%E8%AE%A1%E7%AE%97%E5%80%BC/" class="archive-post-link">
+            Dom元素的一些宽高计算值
+          </a>
+        </span>
+      </div>
+    <div class="collection-title">
+            <h2 class="archive-year">2018</h2>
+          </div>
+        <div class="archive-post">
+        <span class="archive-post-time">
+          06-08
+          </span>
+        <span class="archive-post-title">
+          <a href="/2018/06/08/R%E5%A4%A7%E5%8D%9A%E5%AE%A2%E9%87%8C%E5%AF%B9%E9%97%AD%E5%8C%85%E7%9A%84%E8%A7%A3%E9%87%8A%E3%80%90%E8%BD%AC%E3%80%91/" class="archive-post-link">
+            R大博客里对闭包的解释【转】
+          </a>
+        </span>
+      </div>
+    <div class="archive-post">
+        <span class="archive-post-time">
+          06-06
+          </span>
+        <span class="archive-post-title">
+          <a href="/2018/06/06/javascript%E5%90%84%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E5%AE%9E%E7%8E%B0/" class="archive-post-link">
+            javascript各排序算法实现
+          </a>
+        </span>
+      </div>
+    <div class="archive-post">
+        <span class="archive-post-time">
+          05-08
+          </span>
+        <span class="archive-post-title">
+          <a href="/2018/05/08/R%E8%AF%AD%E8%A8%80%E8%AF%AD%E6%B3%95%E3%80%90%E4%B8%80%E3%80%91/" class="archive-post-link">
+            R语言语法【一】
+          </a>
+        </span>
+      </div>
+    <div class="archive-post">
+        <span class="archive-post-time">
+          05-08
+          </span>
+        <span class="archive-post-title">
+          <a href="/2018/05/08/Nodejs%E4%BB%A3%E7%A0%81%E7%89%87%E6%AE%B5/" class="archive-post-link">
+            Nodejs代码片段
+          </a>
+        </span>
+      </div>
+    <div class="archive-post">
+        <span class="archive-post-time">
+          04-29
+          </span>
+        <span class="archive-post-title">
+          <a href="/2018/04/29/mongodb%E4%B8%8Bn-m%E5%85%B3%E7%B3%BB/" class="archive-post-link">
+            mongodb下n:m关系
+          </a>
+        </span>
+      </div>
+    </section><nav class="pagination"><a class="next" href="/page/2/">
         <span class="next-text">Next</span>
         <i class="iconfont icon-right"></i>
       </a>
-    </nav></section></div></div>
+    </nav>
+    </section></div></div>
       </main>
 
       <footer id="footer" class="footer"><div class="social-links"><a href="mailto:chuliang2013@gmail.com" class="iconfont icon-email" title="email"></a>

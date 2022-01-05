@@ -90,184 +90,116 @@
 
       <main id="main" class="main">
         <div class="content-wrapper">
-          <div id="content" class="content"><section id="posts" class="posts"><article class="post">
-    <header class="post-header">
-      <h1 class="post-title"><a class="post-link" href="/2018/04/28/%E6%88%91%E7%9A%84%E4%BB%A3%E7%A0%81%E5%B0%8F%E7%89%87%E6%AE%B5/">我的代码小片段</a>
-        </h1>
-
-      <div class="post-meta">
-        <span class="post-time">
-          2018-04-28
-        </span></div>
-    </header>
-
-    <div class="post-content"><ol>
-<li><p>获取cookie</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getCookie</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> cookies = <span class="built_in">document</span>.cookie;</span><br><span class="line">  <span class="keyword">let</span> _cookies = cookies.split(<span class="string">&quot;;&quot;</span>);</span><br><span class="line">  <span class="keyword">return</span> _cookies.reduce(<span class="function">(<span class="params">a, cookie</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">let</span> _cookie = cookie.split(<span class="string">&quot;=&quot;</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">Object</span>.assign(a, &#123; [_cookie[<span class="number">0</span>]]: _cookie[<span class="number">1</span>]&#125;);</span><br><span class="line">  &#125;, &#123;&#125;);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-          <div class="read-more">
-            <a href="/2018/04/28/%E6%88%91%E7%9A%84%E4%BB%A3%E7%A0%81%E5%B0%8F%E7%89%87%E6%AE%B5/" class="read-more-link">Read more..</a>
+          <div id="content" class="content"><section id="posts" class="posts"><section id="archive" class="archive"><div class="collection-title">
+            <h2 class="archive-year">2018</h2>
           </div>
-        </div></article>
-      <article class="post">
-    <header class="post-header">
-      <h1 class="post-title"><a class="post-link" href="/2018/04/28/MongoDB%E4%B8%AD%E7%9A%841:m%E5%85%B3%E7%B3%BB/">MongonDB中的1:m关系</a>
-        </h1>
-
-      <div class="post-meta">
-        <span class="post-time">
-          2018-04-28
-        </span></div>
-    </header>
-
-    <div class="post-content"><p>在博客系统中用户(user)和博文(post)是1对多关系,在mongodb中我们怎么表述这种关系呢？在mongo中我们可以利用在多端保存1端的<code>ObjectId</code>来维持这种<code>1:m</code>关系,下面分别列出<code>user</code>和<code>post</code>的结构:</p>
-<ol>
-<li><code>user</code>的结构<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">&quot;_id&quot;</span> : ObjectId(<span class="string">&quot;5ae3caa35ece85125d2429f7&quot;</span>),</span><br><span class="line">    <span class="attr">&quot;username&quot;</span> : <span class="string">&quot;百思可乐1&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;password&quot;</span> : <span class="string">&quot;123456&quot;</span>,</span><br><span class="line">    <span class="attr">&quot;age&quot;</span> : <span class="number">21</span>,</span><br><span class="line">    <span class="attr">&quot;updateAt&quot;</span> : ISODate(<span class="string">&quot;2018-04-28T01:11:54.698Z&quot;</span>),</span><br><span class="line">    <span class="attr">&quot;createdAt&quot;</span> : ISODate(<span class="string">&quot;2018-04-28T01:11:54.698Z&quot;</span>),</span><br><span class="line">    <span class="attr">&quot;__v&quot;</span> : <span class="number">0</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
-</ol>
-          <div class="read-more">
-            <a href="/2018/04/28/MongoDB%E4%B8%AD%E7%9A%841:m%E5%85%B3%E7%B3%BB/" class="read-more-link">Read more..</a>
+        <div class="archive-post">
+        <span class="archive-post-time">
+          04-28
+          </span>
+        <span class="archive-post-title">
+          <a href="/2018/04/28/%E6%88%91%E7%9A%84%E4%BB%A3%E7%A0%81%E5%B0%8F%E7%89%87%E6%AE%B5/" class="archive-post-link">
+            我的代码小片段
+          </a>
+        </span>
+      </div>
+    <div class="archive-post">
+        <span class="archive-post-time">
+          04-28
+          </span>
+        <span class="archive-post-title">
+          <a href="/2018/04/28/MongoDB%E4%B8%AD%E7%9A%841:m%E5%85%B3%E7%B3%BB/" class="archive-post-link">
+            MongonDB中的1:m关系
+          </a>
+        </span>
+      </div>
+    <div class="archive-post">
+        <span class="archive-post-time">
+          04-10
+          </span>
+        <span class="archive-post-title">
+          <a href="/2018/04/10/Node%E6%A8%A1%E5%9D%97%E5%88%97%E8%A1%A8/" class="archive-post-link">
+            Node模块列表
+          </a>
+        </span>
+      </div>
+    <div class="archive-post">
+        <span class="archive-post-time">
+          04-06
+          </span>
+        <span class="archive-post-title">
+          <a href="/2018/04/06/javascript%E4%B8%AD%E7%9A%84%E7%BB%A7%E6%89%BF/" class="archive-post-link">
+            javascript中的继承
+          </a>
+        </span>
+      </div>
+    <div class="archive-post">
+        <span class="archive-post-time">
+          03-05
+          </span>
+        <span class="archive-post-title">
+          <a href="/2018/03/05/Go%E8%AF%AD%E8%A8%80JSON%E5%BA%93%E7%9A%84%E4%BD%BF%E7%94%A8/" class="archive-post-link">
+            Go语言JSON库的使用
+          </a>
+        </span>
+      </div>
+    <div class="collection-title">
+            <h2 class="archive-year">2017</h2>
           </div>
-        </div></article>
-      <article class="post">
-    <header class="post-header">
-      <h1 class="post-title"><a class="post-link" href="/2018/04/10/Node%E6%A8%A1%E5%9D%97%E5%88%97%E8%A1%A8/">Node模块列表</a>
-        </h1>
-
-      <div class="post-meta">
-        <span class="post-time">
-          2018-04-10
-        </span></div>
-    </header>
-
-    <div class="post-content"><ol>
-<li>读写Excel文件 <a target="_blank" rel="noopener" href="https://github.com/guyonroche/exceljs">ExcelJs</a></li>
-<li>时间格式化工具 <a target="_blank" rel="noopener" href="https://date-fns.org/">date-fns</a></li>
-</ol>
-
-        </div></article>
-      <article class="post">
-    <header class="post-header">
-      <h1 class="post-title"><a class="post-link" href="/2018/04/06/javascript%E4%B8%AD%E7%9A%84%E7%BB%A7%E6%89%BF/">javascript中的继承</a>
-        </h1>
-
-      <div class="post-meta">
-        <span class="post-time">
-          2018-04-06
-        </span></div>
-    </header>
-
-    <div class="post-content"><h1 id="1-原型链"><a href="#1-原型链" class="headerlink" title="1.原型链"></a>1.原型链</h1><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">SuperType</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="built_in">this</span>.property = <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br><span class="line">SuperType.prototype.getSuperValue = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">this</span>.property;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">SubType</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="built_in">this</span>.subproperty = <span class="literal">false</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//继承了SuperType</span></span><br><span class="line">SubType.prototype = <span class="keyword">new</span> SuperType();</span><br><span class="line"></span><br><span class="line">SubType.prototype.getSubValue = <span class="function"><span class="keyword">function</span> (<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">this</span>.subproperty;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> instance = <span class="keyword">new</span> SubType();</span><br><span class="line">alert(instance.getSuperValue());”</span><br><span class="line"></span><br><span class="line">摘录来自: Nicholas C.Zakas. “JavaScript高级程序设计（第<span class="number">3</span>版）。” iBooks. </span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>这个方式实现继承最大的问题就是在包含引用类型的原型会被所有实例共享，而导致子类型的实例对这个引用类型的修改可以被其他所有子类型看见。例如：</p>
-</blockquote>
-          <div class="read-more">
-            <a href="/2018/04/06/javascript%E4%B8%AD%E7%9A%84%E7%BB%A7%E6%89%BF/" class="read-more-link">Read more..</a>
+        <div class="archive-post">
+        <span class="archive-post-time">
+          05-11
+          </span>
+        <span class="archive-post-title">
+          <a href="/2017/05/11/ActiveSupport-Concern%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/" class="archive-post-link">
+            ActiveSupport::Concern实现原理
+          </a>
+        </span>
+      </div>
+    <div class="archive-post">
+        <span class="archive-post-time">
+          03-05
+          </span>
+        <span class="archive-post-title">
+          <a href="/2017/03/05/ActiveRecord%E9%87%8C%E7%9A%84Scope%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/" class="archive-post-link">
+            ActiveRecord里的Scope实现原理
+          </a>
+        </span>
+      </div>
+    <div class="collection-title">
+            <h2 class="archive-year">2016</h2>
           </div>
-        </div></article>
-      <article class="post">
-    <header class="post-header">
-      <h1 class="post-title"><a class="post-link" href="/2018/03/05/Go%E8%AF%AD%E8%A8%80JSON%E5%BA%93%E7%9A%84%E4%BD%BF%E7%94%A8/">Go语言JSON库的使用</a>
-        </h1>
-
-      <div class="post-meta">
-        <span class="post-time">
-          2018-03-05
-        </span><span class="post-category">
-            <a href="/categories/Ruby/">Ruby</a>
-            </span>
-        </div>
-    </header>
-
-    <div class="post-content"><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">&quot;name&quot;</span>: <span class="string">&quot;jack&quot;</span>,</span><br><span class="line">  <span class="attr">&quot;age&quot;</span>: <span class="number">21</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> User <span class="keyword">struct</span> &#123;</span><br><span class="line">  Name <span class="keyword">string</span> <span class="string">`json:&quot;name&quot;`</span></span><br><span class="line">  Age <span class="keyword">int</span> <span class="string">`json:&quot;age&quot;`</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">user := User&#123;&#125;</span><br><span class="line">json.Unmarshal([]<span class="keyword">byte</span>(jsonStr), &amp;user)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-        </div></article>
-      <article class="post">
-    <header class="post-header">
-      <h1 class="post-title"><a class="post-link" href="/2017/05/11/ActiveSupport-Concern%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/">ActiveSupport::Concern实现原理</a>
-        </h1>
-
-      <div class="post-meta">
-        <span class="post-time">
-          2017-05-11
-        </span></div>
-    </header>
-
-    <div class="post-content"><p>在<code>Rails</code>中我们经常将可复用的代码放在<code>Concern</code>中以防止<code>fat model</code>具体用法如下(取自rubychina源码)：</p>
-<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 开启关闭帖子功能</span></span><br><span class="line"><span class="class"><span class="keyword">module</span> <span class="title">Closeable</span></span></span><br><span class="line">  extend ActiveSupport::Concern</span><br><span class="line"></span><br><span class="line">  included <span class="keyword">do</span></span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">closed?</span></span></span><br><span class="line">    closed_at.present?</span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">close!</span></span></span><br><span class="line">    transaction <span class="keyword">do</span></span><br><span class="line">      Reply.create_system_event(<span class="symbol">action:</span> <span class="string">&#x27;close&#x27;</span>, <span class="symbol">topic_id:</span> <span class="keyword">self</span>.id)</span><br><span class="line">      update!(<span class="symbol">closed_at:</span> Time.now)</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">open!</span></span></span><br><span class="line">    transaction <span class="keyword">do</span></span><br><span class="line">      update!(<span class="symbol">closed_at:</span> <span class="literal">nil</span>)</span><br><span class="line">      Reply.create_system_event(<span class="symbol">action:</span> <span class="string">&#x27;reopen&#x27;</span>, <span class="symbol">topic_id:</span> <span class="keyword">self</span>.id)</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Topic</span> &lt; ApplicationRecord</span></span><br><span class="line">  <span class="keyword">include</span> Closeable</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
-
-<p>我们今天就来看看<code>ActiveSupport::Concern</code>是如何实现的，以及它解决了以前的那些痛点?</p>
-          <div class="read-more">
-            <a href="/2017/05/11/ActiveSupport-Concern%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/" class="read-more-link">Read more..</a>
-          </div>
-        </div></article>
-      <article class="post">
-    <header class="post-header">
-      <h1 class="post-title"><a class="post-link" href="/2017/03/05/ActiveRecord%E9%87%8C%E7%9A%84Scope%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/">ActiveRecord里的Scope实现原理</a>
-        </h1>
-
-      <div class="post-meta">
-        <span class="post-time">
-          2017-03-05
-        </span><span class="post-category">
-            <a href="/categories/Ruby/">Ruby</a>
-            </span>
-        </div>
-    </header>
-
-    <div class="post-content"><h1 id="scope的用法"><a href="#scope的用法" class="headerlink" title="scope的用法"></a>scope的用法</h1><p><code>scope</code>是我们在<code>rails</code>应用中简化代码的一个重要的工具。比如我们有个<code>Post</code>模型，这个模型有个<code>published</code>的布尔类型的字段用来区分文章是否发布。当我们需要查询所有的已发布文章的集合时候，我们首先想到的是这样写：</p>
-          <div class="read-more">
-            <a href="/2017/03/05/ActiveRecord%E9%87%8C%E7%9A%84Scope%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/" class="read-more-link">Read more..</a>
-          </div>
-        </div></article>
-      <article class="post">
-    <header class="post-header">
-      <h1 class="post-title"><a class="post-link" href="/2016/11/06/Module%E7%9A%84include%E5%92%8Cextend%E7%9A%84%E5%8C%BA%E5%88%AB/">Module的include和extend的区别</a>
-        </h1>
-
-      <div class="post-meta">
-        <span class="post-time">
-          2016-11-06
-        </span></div>
-    </header>
-
-    <div class="post-content"><p>在<code>ruby</code>中我们经常用<code>Module</code>来扩展类的功能，我们常常看到这样的代码：</p>
-<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">module</span> <span class="title">Sayable</span></span></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">say</span></span></span><br><span class="line">    puts <span class="string">&quot;hello&quot;</span></span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">People</span></span></span><br><span class="line">  extend  Sayable</span><br><span class="line">  <span class="keyword">include</span> Sayable</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
-<p>我们看到我们在这里分别使用了<code>extend</code>和<code>include</code>,那么<code>extend</code>和<code>include</code>有什么区别呢？我们接下来实验一下：<br>我们先定义一个<code>module</code>,然后定义两个类分别使用<code>extend</code>和<code>include</code>，然后看看这个两个类的扩展有啥区别。</p>
-          <div class="read-more">
-            <a href="/2016/11/06/Module%E7%9A%84include%E5%92%8Cextend%E7%9A%84%E5%8C%BA%E5%88%AB/" class="read-more-link">Read more..</a>
-          </div>
-        </div></article>
-      <article class="post">
-    <header class="post-header">
-      <h1 class="post-title"><a class="post-link" href="/2016/11/01/Rspec/">RSpec Expectations</a>
-        </h1>
-
-      <div class="post-meta">
-        <span class="post-time">
-          2016-11-01
-        </span></div>
-    </header>
-
-    <div class="post-content"><h1 id="RSpec-Expectations-3-6"><a href="#RSpec-Expectations-3-6" class="headerlink" title="RSpec Expectations 3.6"></a>RSpec Expectations 3.6</h1><p><code>rspec expectations</code> 是被用来定义预期的结果的。</p>
-<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Rspec.describe Account <span class="keyword">do</span></span><br><span class="line">  it <span class="string">&quot;has a balance of zero when first creare&quot;</span> <span class="keyword">do</span></span><br><span class="line">    expect(Account.new.balance).to eq(Money.new(<span class="number">0</span>))</span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
-          <div class="read-more">
-            <a href="/2016/11/01/Rspec/" class="read-more-link">Read more..</a>
-          </div>
-        </div></article>
-      <article class="post">
-    <header class="post-header">
-      <h1 class="post-title"><a class="post-link" href="/2016/09/21/Ruby%E4%B8%AD%E6%95%B0%E7%BB%84%E7%9A%84%E6%93%8D%E4%BD%9C/">Ruby中数组的操作</a>
-        </h1>
-
-      <div class="post-meta">
-        <span class="post-time">
-          2016-09-21
-        </span></div>
-    </header>
-
-    <div class="post-content"><figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 创建并打印数组</span></span><br><span class="line">array = [<span class="string">&#x27;one&#x27;</span>, <span class="string">&#x27;two&#x27;</span>, <span class="string">&#x27;three&#x27;</span>]</span><br><span class="line">p array <span class="comment"># =&gt; [&quot;one&quot;, &quot;two&quot;, &quot;three&quot;]</span></span><br><span class="line">p array[<span class="number">1</span>] <span class="comment"># =&gt; &quot;two&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 增加数组元素</span></span><br><span class="line"><span class="comment"># 我们可以这样的</span></span><br><span class="line">array &lt;&lt; [<span class="string">&quot;four&quot;</span>]</span><br><span class="line">p array <span class="comment"># =&gt; [&quot;one&quot;, &quot;two&quot;, &quot;three&quot;, &quot;four&quot;]</span></span><br><span class="line"><span class="comment"># 还可以这样</span></span><br><span class="line">array.concat([<span class="string">&quot;five&quot;</span>])</span><br><span class="line">p array <span class="comment"># =&gt;  [&quot;one&quot;, &quot;two&quot;, &quot;three&quot;, &quot;four&quot;, &quot;five&quot;]</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 获取数组的数量</span></span><br><span class="line">p array.count <span class="comment"># =&gt; 5</span></span><br><span class="line"><span class="comment"># 获取数组特定元素的数量</span></span><br><span class="line">array &lt;&lt; [<span class="string">&quot;two&quot;</span>] <span class="comment"># =&gt;  [&quot;one&quot;, &quot;two&quot;, &quot;three&quot;, &quot;four&quot;, &quot;five&quot;, &quot;two&quot;]</span></span><br><span class="line">p array(<span class="string">&quot;two&quot;</span>).cout <span class="comment"># =&gt; 2</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 清空数组</span></span><br><span class="line">array.clear</span><br><span class="line">p array <span class="comment"># =&gt; []</span></span><br></pre></td></tr></table></figure>
-        </div></article>
-      <nav class="pagination"><a class="prev" href="/">
+        <div class="archive-post">
+        <span class="archive-post-time">
+          11-06
+          </span>
+        <span class="archive-post-title">
+          <a href="/2016/11/06/Module%E7%9A%84include%E5%92%8Cextend%E7%9A%84%E5%8C%BA%E5%88%AB/" class="archive-post-link">
+            Module的include和extend的区别
+          </a>
+        </span>
+      </div>
+    <div class="archive-post">
+        <span class="archive-post-time">
+          11-01
+          </span>
+        <span class="archive-post-title">
+          <a href="/2016/11/01/Rspec/" class="archive-post-link">
+            RSpec Expectations
+          </a>
+        </span>
+      </div>
+    <div class="archive-post">
+        <span class="archive-post-time">
+          09-21
+          </span>
+        <span class="archive-post-title">
+          <a href="/2016/09/21/Ruby%E4%B8%AD%E6%95%B0%E7%BB%84%E7%9A%84%E6%93%8D%E4%BD%9C/" class="archive-post-link">
+            Ruby中数组的操作
+          </a>
+        </span>
+      </div>
+    </section><nav class="pagination"><a class="prev" href="/">
         <i class="iconfont icon-left"></i>
         <span class="prev-text">Prev</span>
       </a>
@@ -275,7 +207,8 @@
         <span class="next-text">Next</span>
         <i class="iconfont icon-right"></i>
       </a>
-    </nav></section></div></div>
+    </nav>
+    </section></div></div>
       </main>
 
       <footer id="footer" class="footer"><div class="social-links"><a href="mailto:chuliang2013@gmail.com" class="iconfont icon-email" title="email"></a>
