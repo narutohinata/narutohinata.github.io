@@ -127,19 +127,7 @@
 <p>最外层<code>if</code>把<code>body</code>参数两种类型的情况分开处理，第一种是<code>body</code>参数可以响应<code>to_proc</code>方法,这里使用了<code>singleton_class</code>方法获取了当前类的<code>单例类</code>。并通过<code>动态派发</code>调用<code>define_methd</code>方法定义了一个单例方法(这里也就是类方法),同时使用了<code>instance_exec</code>执行了方法体,并且如果存在<code>extension</code>就通过<code>extending</code>方法增强<code>scope</code>，<code>if</code>的另一个分支解决了无法响应<code>to_proc</code>方法的情况(<del>我没有明白为何这里要处理这种情况，ruby里面的callable对象不是都可以响应<code>to_proc</code>方法吗?</del>)，使用了<code>body.call(*args)</code>调用了方法体。两个分支最后都返回了<code>scope</code>以保证<code>链式调用</code>。</p>
 
       </div>
-      <div class="post-copyright">
-    <p class="copyright-item">
-      <span>Author: </span>
-      <a href="http://narutohinata.github.io">chromer</a>
-    </p>
-    <p class="copyright-item">
-      <span>Link: </span>
-      <a href="http://narutohinata.github.io/2017/03/05/ActiveRecord%E9%87%8C%E7%9A%84Scope%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/">http://narutohinata.github.io/2017/03/05/ActiveRecord%E9%87%8C%E7%9A%84Scope%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/</a>
-    </p>
-    <p class="copyright-item">
-      <span>License: </span><a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/" target="_blank">知识共享署名-非商业性使用 4.0 国际许可协议</a>
-    </p>
-  </div>
+      
       <footer class="post-footer">
         <div class="post-tags">
             <a href="/tags/Rails/">Rails</a>

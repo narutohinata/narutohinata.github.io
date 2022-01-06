@@ -6,6 +6,12 @@
   font-weight: lighter;
   font-style: normal; }
 
+@font-face {
+  font-family: 'Menlo';
+  src: url("../fonts/menlo/Menlo-Regular.ttf");
+  font-weight: normal;
+  font-style: normal; }
+
 /*! normalize.css v3.0.2 | MIT License | git.io/normalize */
 /**
  * 1. Set default font family to sans-serif.
