@@ -1,5 +1,5 @@
 ---
-title: CJS是如何处理循环依赖的
+title: CommonJS是如何处理循环依赖的
 date: 2020-01-01 13:21:32
 desc:
 tags:
