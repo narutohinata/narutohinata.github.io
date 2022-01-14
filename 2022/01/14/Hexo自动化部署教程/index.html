@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+  <head><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+<meta name="description" content="Hexo自动化部署教程"/><meta name="keywords" content="CI/CD Blog Tutorial, Chromer's Blog" /><link rel="alternate" href="/atom.xml" title="Chromer's Blog" type="application/atom+xml"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=2.11.1" />
+<link rel="canonical" href="http://narutohinata.github.io/2022/01/14/Hexo自动化部署教程/"/>
+
+<link rel="stylesheet" type="text/css" href="/lib/fancybox/jquery.fancybox.css" />
+<link rel="stylesheet" type="text/css" href="/css/style.css?v=2.11.1" />
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=Chromer"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'Chromer');
+</script><script>
+  window.config = {"leancloud":{"app_id":null,"app_key":null},"toc":true,"fancybox":true,"pjax":"","latex":false};
+</script>
+
+    <title>Hexo自动化部署教程 - Chromer's Blog</title>
+  <meta name="generator" content="Hexo 5.4.0"></head>
+
+  <body><div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/." class="logo">Chromer's Blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list"><a href="/">
+        <li class="mobile-menu-item">Home
+          </li>
+      </a><a href="/archives/">
+        <li class="mobile-menu-item">Archives
+          </li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags
+          </li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories
+          </li>
+      </a></ul>
+</nav>
+<div class="container" id="mobile-panel">
+      <header id="header" class="header"><div class="logo-wrapper">
+  <a href="/." class="logo">Chromer's Blog</a>
+</div>
+
+<nav class="site-navbar"><ul id="menu" class="menu"><li class="menu-item">
+          <a class="menu-item-link" href="/">
+            Home
+            </a>
+        </li>
+      <li class="menu-item">
+          <a class="menu-item-link" href="/archives/">
+            Archives
+            </a>
+        </li>
+      <li class="menu-item">
+          <a class="menu-item-link" href="/tags/">
+            Tags
+            </a>
+        </li>
+      <li class="menu-item">
+          <a class="menu-item-link" href="/categories/">
+            Categories
+            </a>
+        </li>
+      </ul></nav>
+</header>
+
+      <main id="main" class="main">
+        <div class="content-wrapper">
+          <div id="content" class="content"><article class="post">
+    <header class="post-header">
+      <h1 class="post-title">Hexo自动化部署教程
+        </h1>
+
+      <div class="post-meta">
+        <span class="post-time">
+          2022-01-14
+        </span></div>
+    </header>
+
+    <div class="post-content"><p>此篇文章献给平安，读完这篇文章，你将会知道如何部署自己的博客到公网上并且自动化这一过程。</p>
+<ol>
+<li>安装 hexo</li>
+</ol>
+<p><img src="https://chromer-blog.oss-cn-shanghai.aliyuncs.com/blog/image-20220114223522332-7e218618f05355ab9271174ddb7b4f832c0e631247b7380da4ed4212de1b8041.png" alt="image-20220114223522332"></p>
+<p>成功后你打开<a target="_blank" rel="noopener" href="http://localhost/4000/">http://localhost/4000/</a>应该就能看到博客已经成功运行到本地了。</p>
+<p>当你想添加一篇新文章时，运行<code>hexo new 文章名称</code> hexo就会在对应<code>source/_posts</code>目录新建一个<code>文章名称.md</code>的markdown文件。另外运行<code>hexo build</code>可以将我们写的文章编译成静态的网页文件到<code>public</code>文件夹里。</p>
+<ol start="2">
+<li><p>Gihub新建Repo</p>
+<p>这次我们借助github提供的pages服务来部署我们的博客到公网。这次需要到github上新建一个repo. Repo的名称请用你的<code>&lt;账号名&gt;.github.io</code>命名。类似我的github账户名是<code>narutiohinata</code>。所以我新建的Repo名称就是 <code>narutohinata.github.io</code>。</p>
+<p><img src="https://chromer-blog.oss-cn-shanghai.aliyuncs.com/blog/image-20220114225124151-5107e783f5c1139f34ef28cb34953d67945baf52516d3788d2dcc0690b0c0bd8.png" alt="image-20220114225124151"></p>
+<p>完成后，将你本地博客项目push到刚刚新建的Repo里。这需要你在你的博客项目初始化git</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 初始化git</span></span><br><span class="line">git init</span><br><span class="line"></span><br><span class="line"><span class="comment">#这一步是为了和github的默认主分支名称统一</span></span><br><span class="line">git branch -m main</span><br><span class="line"></span><br><span class="line"><span class="comment"># 添加 Github 仓库到本地</span></span><br><span class="line">git remote add origin https://github.com/username/username.github.io.git</span><br><span class="line"><span class="comment"># 将所有文件添加到 git</span></span><br><span class="line">git add .</span><br><span class="line"></span><br><span class="line"><span class="comment"># 添加 commit</span></span><br><span class="line">git commit -m <span class="string">&quot;initial&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 将本地的文件推送到 Github 上的 main 分支</span></span><br><span class="line">git push -u origin main</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>成功之后你应该在你的Repo里看到内容。</p>
+</li>
+<li><p>配置Travis CI</p>
+</li>
+</ol>
+<p>首先你需要到<a target="_blank" rel="noopener" href="https://www.travis-ci.com/">https://www.travis-ci.com/</a>去注册你的Travis CI的账号(使用你的github账号注册)。成功后登录进去，然后点击头像进入<code>Settings</code>页面。这里你应该可以看到你的github账号对应的Repos，找到你博客的Repo，点击最右侧的<code>Settings</code>按钮。</p>
+<p><img src="https://chromer-blog.oss-cn-shanghai.aliyuncs.com/blog/image-20220114231602743-2d1b4ce78c8efb71135bf97ad40f6b119c017ff5e5a8c6a61c898c06f10b2295.png" alt="image-20220114231602743"></p>
+<p>在进入的Settings页面，找到Enviroment Variables模块，在这里我们需要去<code>Github</code>申请一个<code>Personal access token</code>。</p>
+<p>回到github,点击右上角头像进入Settings页面。在侧边栏找到<code>Developer settings</code>选项，点击它进入<code>Developer settings</code>页面。然后找到<code>Personal access tokens</code>选项。在这里新建一个token, 确保勾选中repo，expiration过期时间我这里推荐No expiration。不然的话你可能需要定期更新token。</p>
+<p><img src="https://chromer-blog.oss-cn-shanghai.aliyuncs.com/blog/image-20220114232635544-d33579adacb4917bd8488e0551bfc5b003a0710367fd2faba0253dcc2a44e427.png" alt="image-20220114232635544"></p>
+<p>完成后点击最下方的Generate Token按钮，将得到的<code>token</code>保存到上一步Travis CI里的Enviroment Variable里，为了保持和我的一致，你也把环境变量名称设为GH_TOKEN吧。</p>
+<p><img src="https://chromer-blog.oss-cn-shanghai.aliyuncs.com/blog/image-20220114232904230-9eef5d9f73fdae4625d1fb9863f52532cadca7f626a0bd1be740688844ed3709.png" alt="image-20220114232904230"></p>
+<p>到这一步，Travis CI应该算配置ok了，下一步需要回到我们项目目录给它添加.tarvis.yml文件。</p>
+<ol start="4">
+<li>配置.travis.yml</li>
+</ol>
+<p>我们在本地博客项目根目录添加<code>.travis.yml</code>文件。然后贴上下面的配置</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">os:</span> <span class="string">linux</span></span><br><span class="line"><span class="attr">language:</span> <span class="string">node_js</span></span><br><span class="line"><span class="attr">install:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">yarn</span></span><br><span class="line"><span class="attr">node_js:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="number">13</span> <span class="comment"># use nodejs v13 LTS-</span></span><br><span class="line"><span class="attr">after_success:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">git</span> <span class="string">config</span> <span class="string">--global</span> <span class="string">user.name</span> <span class="string">&quot;&lt;your nickname&gt;&quot;</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">git</span> <span class="string">config</span> <span class="string">--global</span> <span class="string">user.email</span> <span class="string">&quot;&lt;your email&gt;&quot;</span></span><br><span class="line"><span class="attr">cache:</span> <span class="string">npm</span></span><br><span class="line"><span class="attr">branches:</span></span><br><span class="line">  <span class="attr">only:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">main</span> <span class="comment"># build master branch only</span></span><br><span class="line"><span class="attr">script:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">yarn</span> <span class="string">build</span> <span class="comment"># generate static files</span></span><br><span class="line"><span class="attr">deploy:</span></span><br><span class="line">  <span class="attr">strategy:</span> <span class="string">git</span></span><br><span class="line">  <span class="attr">provider:</span> <span class="string">pages</span></span><br><span class="line">  <span class="attr">skip_cleanup:</span> <span class="literal">true</span></span><br><span class="line">  <span class="attr">token:</span> <span class="string">$GH_TOKEN</span></span><br><span class="line">  <span class="attr">keep_history:</span> <span class="literal">true</span></span><br><span class="line">  <span class="attr">on:</span></span><br><span class="line">    <span class="attr">branch:</span> <span class="string">main</span></span><br><span class="line">  <span class="attr">local_dir:</span> <span class="string">public</span></span><br></pre></td></tr></table></figure>
+
+<p>然后将这个新添加的.travis.yml文件提交到版本库，同时push到github上去(稍微解释下这个配置文件，这个文件会告诉travis ci服务我需要一个linux同时拥有nodejs版本为13的部署环境，我需要安装yarn. 在成功之后配置git config, 克隆main分支的内容，成功后运行<code>yarn build</code>生成静态网页文件,然后会部署到名为<code>gh-pages</code>的分支)。这时如果你看到你的github的博客仓库的git commit值之前出现了一个小图标，看起来像是加载什么东西。那么恭喜你，证明travis ci已经在工作了。过了一段时间如果看到那个图表变成了绿色的小对钩，证明构建部署工作完成。检查下你的分支是不是有了gh-pages分支。</p>
+<p><img src="https://chromer-blog.oss-cn-shanghai.aliyuncs.com/blog/image-20220114234446257-784a2160ca888723488ae7d04b19d97544dfd89c712f395907110b69c0c3bb72.png" alt="image-20220114234446257"></p>
+<ol start="5">
+<li>配置Github Pages服务</li>
+</ol>
+<p>如果上面步骤一切顺利，我们就可以开始配置pages服务了。在你的博客仓库页面，点击上方的Settings选项。在进入的设置页面选择左侧栏的Pages选项卡。具体可参考github这篇文章<a target="_blank" rel="noopener" href="https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site">configuring-a-publishing-source-for-your-github-pages-site</a></p>
+<p><img src="https://chromer-blog.oss-cn-shanghai.aliyuncs.com/blog/image-20220114234739230-5c020d678d43d29dd8a4c4cd3efeca4d7a5144ed1d83232a43a627a2cdd921b2.png" alt="image-20220114234739230"></p>
+
+      </div>
+      
+      <footer class="post-footer">
+        <div class="post-tags">
+            <a href="/tags/CI-CD-Blog-Tutorial/">CI/CD Blog Tutorial</a>
+            </div>
+        
+        <nav class="post-nav"><a class="next" href="/2022/01/03/%E7%A7%91%E9%87%8C%E5%8C%96/">
+        <span class="next-text nav-default">科里化</span>
+        <span class="prev-text nav-mobile">Next</span>
+        <i class="iconfont icon-right"></i>
+      </a>
+    </nav></footer>
+    </article></div><div class="comments" id="comments"></div></div>
+      </main>
+
+      <footer id="footer" class="footer"><div class="social-links"><a href="mailto:chuliang2013@gmail.com" class="iconfont icon-email" title="email"></a>
+        <a target="_blank" rel="noopener" href="https://github.com/narutohinata" class="iconfont icon-github" title="github"></a>
+        <a href="/atom.xml" class="iconfont icon-rss" title="rss"></a>
+    </div><div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" target="_blank" rel="noopener" href="https://github.com/ahonn/hexo-theme-even">Even</a>
+  </span>
+
+  <span class="copyright-year">&copy;2016 - 2022<span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">chromer</span>
+  </span>
+</div>
+</footer>
+
+      <div class="back-to-top" id="back-to-top">
+        <i class="iconfont icon-up"></i>
+      </div>
+    </div><script type="text/javascript" src="/lib/jquery/jquery.min.js"></script>
+  <script type="text/javascript" src="/lib/slideout/slideout.js"></script>
+  <script type="text/javascript" src="/lib/fancybox/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/src/even.js?v=2.11.1"></script>
+</body>
+</html>
