@@ -103,6 +103,6 @@ deploy:
 
 5. 配置Github Pages服务
 
-如果上面步骤一切顺利，我们就可以开始配置pages服务了。在你的博客仓库页面，点击上方的Settings选项。在进入的设置页面选择左侧栏的Pages选项卡。具体可参考github这篇文章[configuring-a-publishing-source-for-your-github-pages-site](https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site)
+如果上面步骤一切顺利，我们就可以开始配置pages服务了。在你的博客仓库页面，点击上方的Settings选项。在进入的设置页面选择左侧栏的Pages选项卡。具体可参考github这篇文章[configuring-a-publishing-source-for-your-github-pages-site](https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site). 配置成功之后，去打开`https://yournam.github.io` 如果不出意外，你应该就可以在公网访问你的博客了。
 
 ![image-20220114234739230](https://chromer-blog.oss-cn-shanghai.aliyuncs.com/blog/image-20220114234739230-5c020d678d43d29dd8a4c4cd3efeca4d7a5144ed1d83232a43a627a2cdd921b2.png)
