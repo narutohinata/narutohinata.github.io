@@ -1,7 +1,9 @@
 ---
 title: Hexo自动化部署教程
 date: 2022-01-14 22:23:15
-tags: CI/CD Blog Tutorial
+tags: 
+  - CI/CD 
+  - Tutorial
 ---
 
 此篇文章献给平安，读完这篇文章，你将会知道如何部署自己的博客到公网上并且自动化这一过程。
