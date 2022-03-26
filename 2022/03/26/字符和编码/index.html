@@ -13,7 +13,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
 
-<link rel="alternate" href="/atom.xml" title="Chromer's Blog" type="application/atom+xml"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=2.11.1" />
+<meta name="description" content="字符和编码"/><meta name="keywords" content="字符, Chromer's Blog" /><link rel="alternate" href="/atom.xml" title="Chromer's Blog" type="application/atom+xml"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=2.11.1" />
 <link rel="canonical" href="http://narutohinata.github.io/2022/03/26/字符和编码/"/>
 
 <link rel="stylesheet" type="text/css" href="/lib/fancybox/jquery.fancybox.css" />
@@ -31,7 +31,7 @@
   window.config = {"leancloud":{"app_id":null,"app_key":null},"toc":true,"fancybox":true,"pjax":"","latex":false};
 </script>
 
-    <title> - Chromer's Blog</title>
+    <title>字符和编码 - Chromer's Blog</title>
   <meta name="generator" content="Hexo 5.4.0"></head>
 
   <body><div id="mobile-navbar" class="mobile-navbar">
@@ -92,7 +92,7 @@
         <div class="content-wrapper">
           <div id="content" class="content"><article class="post">
     <header class="post-header">
-      <h1 class="post-title">
+      <h1 class="post-title">字符和编码
         </h1>
 
       <div class="post-meta">
@@ -106,7 +106,7 @@
     <div class="post-toc-content">
       <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BC%95%E8%A8%80"><span class="toc-text">引言</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ASCII"><span class="toc-text">ASCII</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Unicode"><span class="toc-text">Unicode</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Unicode%E7%BC%96%E7%A0%81%E6%96%B9%E6%A1%88"><span class="toc-text">Unicode编码方案</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#UTF-8"><span class="toc-text">UTF-8</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BC%96%E7%A0%81%E8%BF%87%E7%A8%8B"><span class="toc-text">编码过程</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#UTF-16"><span class="toc-text">UTF-16</span></a></li></ol>
     </div>
-  </div><div class="post-content"><h3 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h3><p>手握锟斤拷，直呼烫烫烫。</p>
+  </div><div class="post-content"><h3 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h3><!-- 手握锟斤拷，直呼烫烫烫。 -->
 <p>计算机中的存储器唯一可以存储的是bit(0/1)，因此如果想要在计算机上处理信息，就必须把它按位存储。因此为了将文本表示为数字形式，我们需要构建一个系统来为每一个字符赋予一个独一无二的ID。具有这种功能的系统被称为<strong>字符集（Charset）</strong>。其实字符集就是一个map，一个字符到表示这个字符的唯一ID[这些Id就被称作<strong>码点</strong>(<strong>code point</strong>)]的映射集合。有了字符集合我们就将文本映射成数字形式。但是需要一个规则用来规定如何在计算机中存储这些数字(使用多少字节?)，于是我们就有了**字符编码(encoding)**。</p>
 <h3 id="ASCII"><a href="#ASCII" class="headerlink" title="ASCII"></a>ASCII</h3><p>在计算机早期应对的字符场景还很简单(大小写拉丁字母(26 * 2 = 52) + 数字0-9(10) + 一些符号 不超过128个)，因此于1963发布的ASCII是可以应付当时的场景。</p>
 <p><img src="https://chromer-blog.oss-cn-shanghai.aliyuncs.com/blog/image-20220319234553566-7a392a5b7a2cc1732cf7b30c53275155f1e07969dbffd478ebd8d0a7e675409a.png" alt="image-20220319234553566"></p>
@@ -225,6 +225,9 @@
       </div>
       
       <footer class="post-footer">
+        <div class="post-tags">
+            <a href="/tags/%E5%AD%97%E7%AC%A6/">字符</a>
+            </div>
         
         <nav class="post-nav"><a class="next" href="/2022/01/15/%E5%88%9D%E8%AF%86Tapable/">
         <span class="next-text nav-default">初识Tapable</span>
