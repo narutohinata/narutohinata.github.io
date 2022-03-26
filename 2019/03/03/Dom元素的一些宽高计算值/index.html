@@ -111,7 +111,7 @@
     </div>
   </div><div class="post-content"><h1 id="Dom元素的一些宽高计算值"><a href="#Dom元素的一些宽高计算值" class="headerlink" title="Dom元素的一些宽高计算值"></a>Dom元素的一些宽高计算值</h1><h2 id="HTMLElement-offsetWidth-Height"><a href="#HTMLElement-offsetWidth-Height" class="headerlink" title="HTMLElement.offsetWidth/Height"></a>HTMLElement.offsetWidth/Height</h2><p><code>HTMLElement.offsetWidth/Hight</code> 是一个只读属性,  返回一个元素的布局宽度/高度。一般来说(各个浏览器的实现可能不一致) offsetWidth/Height是测量包含元素的边框(border)、内边距(padding)、滚动条(scrollbar)、以及CSS设置的size值。</p>
 <ul>
-<li> offsetWidth = content.width + paddingLeft + paddingRight + borderLeft + borderRight + verticalScrollbarWidth</li>
+<li>offsetWidth = content.width + paddingLeft + paddingRight + borderLeft + borderRight + verticalScrollbarWidth</li>
 <li>offsetHeight = content.width + paddingTop + paddingBottom + borderTop + borderBottom + horizontalScrollbarWidth</li>
 </ul>
 <h2 id="Element-clientWidth-Height"><a href="#Element-clientWidth-Height" class="headerlink" title="Element.clientWidth/Height"></a>Element.clientWidth/Height</h2><p><code>Element.clientWidth/Element.clientHeight</code> 属性表示一个元素的内部宽度/高度。该属性包含内边距padding,但是不包含边框border、外边距margin以及滚动条。 也就是说:</p>

@@ -110,12 +110,13 @@
       <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BC%95%E8%A8%80"><span class="toc-text">引言</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ASCII"><span class="toc-text">ASCII</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Unicode"><span class="toc-text">Unicode</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Unicode%E7%BC%96%E7%A0%81%E6%96%B9%E6%A1%88"><span class="toc-text">Unicode编码方案</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#UTF-8"><span class="toc-text">UTF-8</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BC%96%E7%A0%81%E8%BF%87%E7%A8%8B"><span class="toc-text">编码过程</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#UTF-16"><span class="toc-text">UTF-16</span></a></li></ol>
     </div>
   </div><div class="post-content"><h3 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h3><!-- 手握锟斤拷，直呼烫烫烫。 -->
-<p>计算机中的存储器唯一可以存储的是bit(0/1)，因此如果想要在计算机上处理信息，就必须把它按位存储。因此为了将文本表示为数字形式，我们需要构建一个系统来为每一个字符赋予一个独一无二的ID。具有这种功能的系统被称为<strong>字符集（Charset</strong>。其实字符集就是一个map，一个字符到表示这个字符的唯一ID[这些Id就被称作<strong>码点</strong>(<strong>code point</strong>)]的映射集合。有了字符集合我们就将文本映射成数字形式。但是需要一个规则用来规定如何在计算机中存储这些数字(使用多少字节?)，于是我们就有了**字符编码(encoding)**。</p>
+<p>计算机中的存储器唯一可以存储的是bit(0/1)，因此如果想要在计算机上处理信息，就必须把它按位存储。因此为了将文本表示为数字形式，我们需要构建一个系统来为每一个字符赋予一个独一无二的ID。具有这种功能的系统被称为<strong>字符集（Charset</strong>。其实字符集就是一个map，一个字符到表示这个字符的唯一ID[这些Id就被称作<strong>码点</strong>(<strong>code point</strong>)]的映射集合。有了字符集合我们就将文本映射成数字形式。但是需要一个规则用来规定如何在计算机中存储这些数字(使用多少字节?)，于是我们就有了<strong>字符编码(encoding)</strong>。</p>
 <h3 id="ASCII"><a href="#ASCII" class="headerlink" title="ASCII"></a>ASCII</h3><p>在计算机早期应对的字符场景还很简单(大小写拉丁字母(26 * 2 = 52) + 数字0-9(10) + 一些符号 不超过128个)，因此于1963发布的ASCII是可以应付当时的场景。</p>
 <p><img src="https://chromer-blog.oss-cn-shanghai.aliyuncs.com/blog/image-20220319234553566-7a392a5b7a2cc1732cf7b30c53275155f1e07969dbffd478ebd8d0a7e675409a.png" alt="image-20220319234553566"></p>
 <p>标准ASCII只用到的1byte的后7位。看下图就可以知道ASCII使用范围是$0x00$ ~ $ 0x7F$。</p>
-<p><img src="https://chromer-blog.oss-cn-shanghai.aliyuncs.com/blog/USASCII_code_chart-9e9c85c0d5f0c819bcf7d61c0cce9152e0e359b2cffe96d2b5507b690edafc20.png"></p>
+<p><img src="https://chromer-blog.oss-cn-shanghai.aliyuncs.com/blog/USASCII_code_chart-9e9c85c0d5f0c819bcf7d61c0cce9152e0e359b2cffe96d2b5507b690edafc20.png" alt=""></p>
 <h3 id="Unicode"><a href="#Unicode" class="headerlink" title="Unicode"></a>Unicode</h3><p>随着计算机的发展和互联网的普及，计算机需要面对各个国家的语言。此时ASCII很显然无法满足需求了，于是各个国家都发布了自己语言的字符集，我们国家也是在1980年发布了基于ASCII扩展的中文字符集<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/GB_2312"><strong>GB2312</strong></a>。于是建立一个涵盖世界上所有文本的编码规范成为了一个迫切的需求。在国际化标准组织和美国几大商业公司合作下，1991年Unicode发布。最初的Unicode编码使用16位的编码空间也就是2Byte这样理论上最多可以表示$2^{16}$(即65536)个字符，显然这样要表示世界上所有语言中的字符是远远不够的。后来在Unicode4.0规范中考虑到了这种情况，定义了一组附加字符编码，附加字符编码使用2个16位表示，目前Unicode编码范围是U+0000~U+10FFFF。Unicode将这些码点按照每组$2^{16}$（65536）分组，每组被称为一个<strong>平面</strong>（plane）。Unicode一共将这些码点分成了17个平面，Plane0 ~ Plane16。Plane0又被称作基本多文本平面（BMP)，其他平面统称为辅助平面。</p>
+<div class="table-container">
 <table>
 <thead>
 <tr>
@@ -125,7 +126,8 @@
 <th>英文名称</th>
 </tr>
 </thead>
-<tbody><tr>
+<tbody>
+<tr>
 <td>0号平面（Plane0)</td>
 <td>U+0000 - U+FFFF</td>
 <td>基本多文本平面</td>
@@ -177,9 +179,10 @@
 <td></td>
 <td></td>
 <td></td>
-<td></td>
 </tr>
-</tbody></table>
+</tbody>
+</table>
+</div>
 <p><img src="https://chromer-blog.oss-cn-shanghai.aliyuncs.com/blog/image-20220319235230869-4dcab2527238d5c0bdd623f6f8ea4330eb69877a02626bfd8a4cab02f41a1d00.png" alt="image-20220319235230869"></p>
 <h3 id="Unicode编码方案"><a href="#Unicode编码方案" class="headerlink" title="Unicode编码方案"></a>Unicode编码方案</h3><p>Unicode 没有规定字符对应的二进制码如何存储。以汉字“汉”为例，它的 Unicode 码点是 0x6c49，对应的二进制数是 110110001001001，二进制数有 15 位，这也就说明了它至少需要 2 个字节来表示。可以想象，在 Unicode 字典中往后的字符可能就需要 3 个字节或者 4 个字节，甚至更多字节来表示了。</p>
 <p>这就导致了一些问题，计算机怎么知道你这个 2 个字节表示的是一个字符，而不是分别表示两个字符呢？这里我们可能会想到，那就取个最大的，假如 Unicode 中最大的字符用 4 字节就可以表示了，那么我们就将所有的字符都用 4 个字节来表示，不够的就往前面补 0（UTF-32)。这样确实可以解决编码问题，但是却造成了空间的极大浪费，如果是一个英文文档，那文件大小就大出了 3 倍，这显然是无法接受的。</p>
@@ -191,30 +194,34 @@
 <li>对于需要使用 N 个字节来表示的字符（N &gt; 1），第一个字节的前 N 位都设为 1，第 N + 1 位设为 0，剩余的 N - 1 个字节的前两位都设位 10，剩下的二进制位则使用这个字符的 Unicode 码点来填充。</li>
 </ol>
 <p>编码规则如下：</p>
+<div class="table-container">
 <table>
 <thead>
 <tr>
-<th align="left">Unicode 十六进制码点范围</th>
-<th align="left">UTF-8 二进制</th>
+<th style="text-align:left">Unicode 十六进制码点范围</th>
+<th style="text-align:left">UTF-8 二进制</th>
 </tr>
 </thead>
-<tbody><tr>
-<td align="left">0000 0000 - 0000 007F</td>
-<td align="left">0xxxxxxx</td>
+<tbody>
+<tr>
+<td style="text-align:left">0000 0000 - 0000 007F</td>
+<td style="text-align:left">0xxxxxxx</td>
 </tr>
 <tr>
-<td align="left">0000 0080 - 0000 07FF</td>
-<td align="left">110xxxxx 10xxxxxx</td>
+<td style="text-align:left">0000 0080 - 0000 07FF</td>
+<td style="text-align:left">110xxxxx 10xxxxxx</td>
 </tr>
 <tr>
-<td align="left">0000 0800 - 0000 FFFF</td>
-<td align="left">1110xxxx 10xxxxxx 10xxxxxx</td>
+<td style="text-align:left">0000 0800 - 0000 FFFF</td>
+<td style="text-align:left">1110xxxx 10xxxxxx 10xxxxxx</td>
 </tr>
 <tr>
-<td align="left">0001 0000 - 0010 FFFF</td>
-<td align="left">11110xxx 10xxxxxx 10xxxxxx 10xxxxxx</td>
+<td style="text-align:left">0001 0000 - 0010 FFFF</td>
+<td style="text-align:left">11110xxx 10xxxxxx 10xxxxxx 10xxxxxx</td>
 </tr>
-</tbody></table>
+</tbody>
+</table>
+</div>
 <h4 id="编码过程"><a href="#编码过程" class="headerlink" title="编码过程"></a>编码过程</h4><p>下图展示了中文“我”的UTF-8的编码过程，最终得到的结果是0xE68891</p>
 <p><img src="https://chromer-blog.oss-cn-shanghai.aliyuncs.com/blog/image-20220320174733759-4e87c30dcf657497ade3913b1b7a6fb0c478f49d0e06f39ae13531ed1e06c12e.png" alt="image-20220320174733759"></p>
 <p><img src="https://chromer-blog.oss-cn-shanghai.aliyuncs.com/blog/image-20220326225545448-e03623515fcac258c665e877a9acff55d58af34568edb349df8d9b4fa2ebe60d.png" alt="image-20220326225545448"></p>

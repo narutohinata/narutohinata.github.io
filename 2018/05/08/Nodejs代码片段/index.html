@@ -111,9 +111,11 @@
     </div>
   </div><div class="post-content"><h1 id="Nodejs-Base64编码和解码"><a href="#Nodejs-Base64编码和解码" class="headerlink" title="Nodejs Base64编码和解码"></a>Nodejs <code>Base64</code>编码和解码</h1><ol>
 <li><p>Base64编码</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> str = <span class="string">&quot;我爱js&quot;</span>;</span><br><span class="line"><span class="keyword">var</span> decode_str = Buffer.from(str).toString(<span class="string">&#x27;base64&#x27;</span>) <span class="comment">// &gt; &#x27;5oiR54ixanM=&#x27;</span></span><br><span class="line"><span class="comment">// 或者这样：new Buffer(str).toString(&#x27;base64&#x27;) 【已弃用】</span></span><br></pre></td></tr></table></figure></li>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> str = <span class="string">&quot;我爱js&quot;</span>;</span><br><span class="line"><span class="keyword">var</span> decode_str = Buffer.from(str).toString(<span class="string">&#x27;base64&#x27;</span>) <span class="comment">// &gt; &#x27;5oiR54ixanM=&#x27;</span></span><br><span class="line"><span class="comment">// 或者这样：new Buffer(str).toString(&#x27;base64&#x27;) 【已弃用】</span></span><br></pre></td></tr></table></figure>
+</li>
 <li><p>Base64解码</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> decode_str = <span class="string">&#x27;5oiR54ixanM=&#x27;</span>;</span><br><span class="line"><span class="keyword">var</span> str = Buffer.from(decode_str, <span class="string">&#x27;base64&#x27;</span>).toString() <span class="comment">// &gt; 我爱js</span></span><br></pre></td></tr></table></figure></li>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> decode_str = <span class="string">&#x27;5oiR54ixanM=&#x27;</span>;</span><br><span class="line"><span class="keyword">var</span> str = Buffer.from(decode_str, <span class="string">&#x27;base64&#x27;</span>).toString() <span class="comment">// &gt; 我爱js</span></span><br></pre></td></tr></table></figure>
+</li>
 </ol>
 
       </div>
