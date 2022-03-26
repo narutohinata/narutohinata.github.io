@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+  <head><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+<meta name="description" content="怎么在c语言中调用c++的类非静态成员函数"/><meta name="keywords" content="c, c++, Chromer's Blog" /><link rel="alternate" href="/atom.xml" title="Chromer's Blog" type="application/atom+xml"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=2.11.1" />
+<link rel="canonical" href="http://narutohinata.github.io/2022/01/06/怎么在c语言中调用c-的类非静态成员函数/"/>
+
+<link rel="stylesheet" type="text/css" href="/lib/fancybox/jquery.fancybox.css" />
+<link rel="stylesheet" type="text/css" href="/css/style.css?v=2.11.1" />
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=Chromer"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'Chromer');
+</script><script>
+  window.config = {"leancloud":{"app_id":null,"app_key":null},"toc":true,"fancybox":true,"pjax":"","latex":false};
+</script>
+
+    <title>怎么在c语言中调用c++的类非静态成员函数 - Chromer's Blog</title>
+  <meta name="generator" content="Hexo 5.4.0"></head>
+
+  <body><div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/." class="logo">Chromer's Blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list"><a href="/">
+        <li class="mobile-menu-item">Home
+          </li>
+      </a><a href="/archives/">
+        <li class="mobile-menu-item">Archives
+          </li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags
+          </li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories
+          </li>
+      </a></ul>
+</nav>
+<div class="container" id="mobile-panel">
+      <header id="header" class="header"><div class="logo-wrapper">
+  <a href="/." class="logo">Chromer's Blog</a>
+</div>
+
+<nav class="site-navbar"><ul id="menu" class="menu"><li class="menu-item">
+          <a class="menu-item-link" href="/">
+            Home
+            </a>
+        </li>
+      <li class="menu-item">
+          <a class="menu-item-link" href="/archives/">
+            Archives
+            </a>
+        </li>
+      <li class="menu-item">
+          <a class="menu-item-link" href="/tags/">
+            Tags
+            </a>
+        </li>
+      <li class="menu-item">
+          <a class="menu-item-link" href="/categories/">
+            Categories
+            </a>
+        </li>
+      </ul></nav>
+</header>
+
+      <main id="main" class="main">
+        <div class="content-wrapper">
+          <div id="content" class="content"><article class="post">
+    <header class="post-header">
+      <h1 class="post-title">怎么在c语言中调用c++的类非静态成员函数
+        </h1>
+
+      <div class="post-meta">
+        <span class="post-time">
+          2022-01-06
+        </span></div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+    <h2 class="post-toc-title">Contents</h2>
+    <div class="post-toc-content">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BC%9A%E8%A7%A6%E5%8F%91%E8%BF%99%E4%B8%AA%E9%94%99%E8%AF%AF%EF%BC%9F"><span class="toc-text">为什么会触发这个错误？</span></a></li></ol>
+    </div>
+  </div><div class="post-content"><p>考虑到下面的代码。</p>
+<p>我们有一个c库代码<code>lib.c</code>,里面有个函数叫<code>subscribe</code>,它接受一个callback函数指针作为参数。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// lib.c</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">typedef</span> <span class="title">int</span><span class="params">(*T)</span><span class="params">(<span class="keyword">int</span> a)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">subscribe</span><span class="params">(<span class="keyword">void</span>* callback)</span> </span>&#123;</span><br><span class="line">  T cb = <span class="keyword">reinterpret_cast</span>&lt;T&gt;(callback);</span><br><span class="line">  cb(<span class="number">20</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>同时在我们的c++项目中，我想去调用这个<code>subscribe</code>函数，并准备传入一个非静态成员函数作为参数。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Demo</span> &#123;</span></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="keyword">int</span> base = <span class="number">100</span>;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">     <span class="function"><span class="keyword">int</span> <span class="title">received</span><span class="params">(<span class="keyword">int</span> offset)</span></span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">Demo::received</span><span class="params">(<span class="keyword">int</span> offset)</span> </span>&#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;received data is %d\n&quot;</span>, <span class="keyword">this</span>-&gt;base + offset);</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span>-&gt;base + offset;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    Demo* demo = <span class="keyword">new</span> <span class="built_in">Demo</span>();</span><br><span class="line">    <span class="built_in">subscribe</span>(<span class="keyword">reinterpret_cast</span>&lt;<span class="keyword">void</span>*&gt;(&amp;Demo::received));<span class="comment">// compiler error; reinterpret_cast from &#x27;int (Demo::*)(int)&#x27; to &#x27;void *&#x27; is not allowed</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>不幸的是，我们得到了一个编译错误，看起来像是个类型错误。</p>
+<h2 id="为什么会触发这个错误？"><a href="#为什么会触发这个错误？" class="headerlink" title="为什么会触发这个错误？"></a>为什么会触发这个错误？</h2><p>因为这个c++的非静态类成员函数有一个隐式的参数叫<em>this</em>.它是一个指针指向了这个类的实例对象本身。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Demo* demo = <span class="keyword">new</span> <span class="built_in">Demo</span>();</span><br><span class="line">demo-&gt;<span class="built_in">received</span>(<span class="number">20</span>);</span><br></pre></td></tr></table></figure>
+
+<p>上面这行代码等价于下面的这行</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Demo* demo = <span class="keyword">new</span> <span class="built_in">Demo</span>();</span><br><span class="line"><span class="built_in">received</span>(demo, <span class="number">20</span>); <span class="comment">// recevicde(this, 20)</span></span><br></pre></td></tr></table></figure>
+
+<p>因此我们不能在c代码直接调用这个非静态类成员函数。但是类的静态成员函数没有这个约束。因为类的静态类成员函数并不和任意一个类实例对象绑定。</p>
+<p>于是我们可以写出下面这段代码👇</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Demo</span> &#123;</span></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="keyword">int</span> base = <span class="number">100</span>;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">  	<span class="function"><span class="keyword">int</span> <span class="title">received</span><span class="params">(<span class="keyword">int</span> offset)</span> </span>&#123;</span><br><span class="line">         <span class="built_in">printf</span>(<span class="string">&quot;received data is %d\n&quot;</span>, <span class="keyword">this</span>-&gt;base + offset);</span><br><span class="line">         <span class="keyword">return</span> <span class="keyword">this</span>-&gt;base + offset;</span><br><span class="line">    &#125;</span><br><span class="line">  	<span class="function"><span class="keyword">static</span> <span class="keyword">int</span> <span class="title">static_received</span><span class="params">(<span class="keyword">int</span> offset)</span> </span>&#123;</span><br><span class="line">         <span class="built_in">printf</span>(<span class="string">&quot;static_received data is %d\n&quot;</span>, offset);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    Demo* demo = <span class="keyword">new</span> <span class="built_in">Demo</span>();</span><br><span class="line">    <span class="built_in">subscribe</span>(<span class="keyword">reinterpret_cast</span>&lt;<span class="keyword">void</span>*&gt;(&amp;Demo::static_received));<span class="comment">// 👌</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>基于上面的原理,我们可以在静态成员函数中去调用这个类的非静态成员函数。也就意味着我们可以在c代码中间接的去调用非静态成员函数。</p>
+<p><img src="https://chromer-blog.oss-cn-shanghai.aliyuncs.com/blog/call_tree-ddeb964ee92a28827b5e886cfb26a97db4b318657ba37a5d71a5e3b81e0ee228.png" alt="call_tree"></p>
+<p>但是要向做的这点，我们首先要解决的是如何在静态成员函数中去调用非静态成员。我们需要确保在类的静态成员中能访问到<code>this</code>指针，这样我们才能调用非静态成员函数。</p>
+<p>但是上面说过静态成员函数不和任意一个类实例对象绑定。也就是说我们无法在类静态成员函数中直接获取到<code>this</code>指针，这是不是意味着这个方案死路一条？别急，我们从c++语言层面确实无法解决，但是我们可以从汇编代码入手。要确保在类静态成员函数中获取到<code>this</code>指针，我们需要在调用函数之前先把<code>this</code>指针保存到寄存器。然后我们再函数内部使用内联汇编的方式再从这个寄存器拿到<code>this</code>指针。整个过程的伪代码如下:</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">int</span> <span class="title">static_received</span><span class="params">(<span class="keyword">int</span> data)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">void</span>* this_obj = <span class="literal">nullptr</span>;</span><br><span class="line"></span><br><span class="line">  obj = <span class="built_in">get_this_obj_from_register</span>();</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">static_cast</span>&lt;Demo*&gt;(this_obj)-&gt;<span class="built_in">say</span>(data);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+      </div>
+      
+      <footer class="post-footer">
+        <div class="post-tags">
+            <a href="/tags/c/">c</a>
+            <a href="/tags/c/">c++</a>
+            </div>
+        
+        <nav class="post-nav"><a class="prev" href="/2022/01/14/Hexo%E8%87%AA%E5%8A%A8%E5%8C%96%E9%83%A8%E7%BD%B2%E6%95%99%E7%A8%8B/">
+        <i class="iconfont icon-left"></i>
+        <span class="prev-text nav-default">Hexo自动化部署教程</span>
+        <span class="prev-text nav-mobile">Prev</span>
+      </a>
+    <a class="next" href="/2022/01/03/%E7%A7%91%E9%87%8C%E5%8C%96/">
+        <span class="next-text nav-default">科里化</span>
+        <span class="prev-text nav-mobile">Next</span>
+        <i class="iconfont icon-right"></i>
+      </a>
+    </nav></footer>
+    </article></div><div class="comments" id="comments"></div></div>
+      </main>
+
+      <footer id="footer" class="footer"><div class="social-links"><a href="mailto:chuliang2013@gmail.com" class="iconfont icon-email" title="email"></a>
+        <a target="_blank" rel="noopener" href="https://github.com/narutohinata" class="iconfont icon-github" title="github"></a>
+        <a href="/atom.xml" class="iconfont icon-rss" title="rss"></a>
+    </div><div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" target="_blank" rel="noopener" href="https://github.com/ahonn/hexo-theme-even">Even</a>
+  </span>
+
+  <span class="copyright-year">&copy;2016 - 2022<span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">chromer</span>
+  </span>
+</div>
+</footer>
+
+      <div class="back-to-top" id="back-to-top">
+        <i class="iconfont icon-up"></i>
+      </div>
+    </div><script type="text/javascript" src="/lib/jquery/jquery.min.js"></script>
+  <script type="text/javascript" src="/lib/slideout/slideout.js"></script>
+  <script type="text/javascript" src="/lib/fancybox/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/src/even.js?v=2.11.1"></script>
+</body>
+</html>

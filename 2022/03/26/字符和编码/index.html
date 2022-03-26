@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+  <head><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+<link rel="alternate" href="/atom.xml" title="Chromer's Blog" type="application/atom+xml"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=2.11.1" />
+<link rel="canonical" href="http://narutohinata.github.io/2022/03/26/字符和编码/"/>
+
+<link rel="stylesheet" type="text/css" href="/lib/fancybox/jquery.fancybox.css" />
+<link rel="stylesheet" type="text/css" href="/css/style.css?v=2.11.1" />
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=Chromer"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'Chromer');
+</script><script>
+  window.config = {"leancloud":{"app_id":null,"app_key":null},"toc":true,"fancybox":true,"pjax":"","latex":false};
+</script>
+
+    <title> - Chromer's Blog</title>
+  <meta name="generator" content="Hexo 5.4.0"></head>
+
+  <body><div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/." class="logo">Chromer's Blog</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list"><a href="/">
+        <li class="mobile-menu-item">Home
+          </li>
+      </a><a href="/archives/">
+        <li class="mobile-menu-item">Archives
+          </li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags
+          </li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories
+          </li>
+      </a></ul>
+</nav>
+<div class="container" id="mobile-panel">
+      <header id="header" class="header"><div class="logo-wrapper">
+  <a href="/." class="logo">Chromer's Blog</a>
+</div>
+
+<nav class="site-navbar"><ul id="menu" class="menu"><li class="menu-item">
+          <a class="menu-item-link" href="/">
+            Home
+            </a>
+        </li>
+      <li class="menu-item">
+          <a class="menu-item-link" href="/archives/">
+            Archives
+            </a>
+        </li>
+      <li class="menu-item">
+          <a class="menu-item-link" href="/tags/">
+            Tags
+            </a>
+        </li>
+      <li class="menu-item">
+          <a class="menu-item-link" href="/categories/">
+            Categories
+            </a>
+        </li>
+      </ul></nav>
+</header>
+
+      <main id="main" class="main">
+        <div class="content-wrapper">
+          <div id="content" class="content"><article class="post">
+    <header class="post-header">
+      <h1 class="post-title">
+        </h1>
+
+      <div class="post-meta">
+        <span class="post-time">
+          2022-03-26
+        </span></div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+    <h2 class="post-toc-title">Contents</h2>
+    <div class="post-toc-content">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BC%95%E8%A8%80"><span class="toc-text">引言</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ASCII"><span class="toc-text">ASCII</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Unicode"><span class="toc-text">Unicode</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Unicode%E7%BC%96%E7%A0%81%E6%96%B9%E6%A1%88"><span class="toc-text">Unicode编码方案</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#UTF-8"><span class="toc-text">UTF-8</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BC%96%E7%A0%81%E8%BF%87%E7%A8%8B"><span class="toc-text">编码过程</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#UTF-16"><span class="toc-text">UTF-16</span></a></li></ol>
+    </div>
+  </div><div class="post-content"><h3 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h3><p>手握锟斤拷，直呼烫烫烫。</p>
+<p>计算机中的存储器唯一可以存储的是bit(0/1)，因此如果想要在计算机上处理信息，就必须把它按位存储。因此为了将文本表示为数字形式，我们需要构建一个系统来为每一个字符赋予一个独一无二的ID。具有这种功能的系统被称为<strong>字符集（Charset）</strong>。其实字符集就是一个map，一个字符到表示这个字符的唯一ID[这些Id就被称作<strong>码点</strong>(<strong>code point</strong>)]的映射集合。有了字符集合我们就将文本映射成数字形式。但是需要一个规则用来规定如何在计算机中存储这些数字(使用多少字节?)，于是我们就有了**字符编码(encoding)**。</p>
+<h3 id="ASCII"><a href="#ASCII" class="headerlink" title="ASCII"></a>ASCII</h3><p>在计算机早期应对的字符场景还很简单(大小写拉丁字母(26 * 2 = 52) + 数字0-9(10) + 一些符号 不超过128个)，因此于1963发布的ASCII是可以应付当时的场景。</p>
+<p><img src="https://chromer-blog.oss-cn-shanghai.aliyuncs.com/blog/image-20220319234553566-7a392a5b7a2cc1732cf7b30c53275155f1e07969dbffd478ebd8d0a7e675409a.png" alt="image-20220319234553566"></p>
+<p>标准ASCII只用到的1byte的后7位。看下图就可以知道ASCII使用范围是$0x00$ ~ $ 0x7F$。</p>
+<p><img src="https://chromer-blog.oss-cn-shanghai.aliyuncs.com/blog/USASCII_code_chart-9e9c85c0d5f0c819bcf7d61c0cce9152e0e359b2cffe96d2b5507b690edafc20.png"></p>
+<h3 id="Unicode"><a href="#Unicode" class="headerlink" title="Unicode"></a>Unicode</h3><p>随着计算机的发展和互联网的普及，计算机需要面对各个国家的语言。此时ASCII很显然无法满足需求了，于是各个国家都发布了自己语言的字符集，我们国家也是在1980年发布了基于ASCII扩展的中文字符集**<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/GB_2312">GB2312</a><strong>。于是建立一个涵盖世界上所有文本的编码规范成为了一个迫切的需求。在国际化标准组织和美国几大商业公司合作下，1991年Unicode发布。最初的Unicode编码使用16位的编码空间也就是2Byte这样理论上最多可以表示$2^{16}$(即65536)个字符，显然这样要表示世界上所有语言中的字符是远远不够的。后来在Unicode4.0规范中考虑到了这种情况，定义了一组附加字符编码，附加字符编码使用2个16位表示，目前Unicode编码范围是U+0000~U+10FFFF。Unicode将这些码点按照每组$2^{16}$（65536）分组，每组被称为一个</strong>平面**（plane）。Unicode一共将这些码点分成了17个平面，Plane0 ~ Plane16。Plane0又被称作基本多文本平面（BMP)，其他平面统称为辅助平面。</p>
+<table>
+<thead>
+<tr>
+<th>平面</th>
+<th>范围</th>
+<th>中文名称</th>
+<th>英文名称</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>0号平面（Plane0)</td>
+<td>U+0000 - U+FFFF</td>
+<td>基本多文本平面</td>
+<td>BMP</td>
+</tr>
+<tr>
+<td>1号平面（Plane1)</td>
+<td>U+10000 - U+1FFFF</td>
+<td>多文种补充平面</td>
+<td>SMP</td>
+</tr>
+<tr>
+<td>2号平面(Plane2)</td>
+<td>U+20000 - U+2FFFF</td>
+<td>表意文字补充平面</td>
+<td>SIP</td>
+</tr>
+<tr>
+<td>3号平面(Plane3)</td>
+<td>U+30000 - U+3FFFF</td>
+<td>表意文字第三平面</td>
+<td>TIP</td>
+</tr>
+<tr>
+<td>4号平面~13号平面</td>
+<td>U+40000 - U+DFFFF</td>
+<td>未使用</td>
+<td></td>
+</tr>
+<tr>
+<td>14号平面(Plane14)</td>
+<td>U+E0000 - U+EFFFF</td>
+<td>特别用途补充平面</td>
+<td>SSP</td>
+</tr>
+<tr>
+<td>15号平面(Plane15)</td>
+<td>U+F0000 - U+FFFFF</td>
+<td>保留作为私人使用区（A区）</td>
+<td>PUA-A</td>
+</tr>
+<tr>
+<td>16号平面(Plane16)</td>
+<td>U+100000 - U+10FFFF</td>
+<td>保留作为私人使用区（B区）</td>
+<td>PUA-B</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<p><img src="https://chromer-blog.oss-cn-shanghai.aliyuncs.com/blog/image-20220319235230869-4dcab2527238d5c0bdd623f6f8ea4330eb69877a02626bfd8a4cab02f41a1d00.png" alt="image-20220319235230869"></p>
+<h3 id="Unicode编码方案"><a href="#Unicode编码方案" class="headerlink" title="Unicode编码方案"></a>Unicode编码方案</h3><p>Unicode 没有规定字符对应的二进制码如何存储。以汉字“汉”为例，它的 Unicode 码点是 0x6c49，对应的二进制数是 110110001001001，二进制数有 15 位，这也就说明了它至少需要 2 个字节来表示。可以想象，在 Unicode 字典中往后的字符可能就需要 3 个字节或者 4 个字节，甚至更多字节来表示了。</p>
+<p>这就导致了一些问题，计算机怎么知道你这个 2 个字节表示的是一个字符，而不是分别表示两个字符呢？这里我们可能会想到，那就取个最大的，假如 Unicode 中最大的字符用 4 字节就可以表示了，那么我们就将所有的字符都用 4 个字节来表示，不够的就往前面补 0（UTF-32)。这样确实可以解决编码问题，但是却造成了空间的极大浪费，如果是一个英文文档，那文件大小就大出了 3 倍，这显然是无法接受的。</p>
+<p>于是，为了较好的解决 Unicode 的编码问题， UTF-8 和 UTF-16 两种当前比较流行的编码方式诞生了。当然还有一个 UTF-32 的编码方式，也就是上述那种定长编码，字符统一使用 4 个字节，虽然看似方便，但是却不如另外两种编码方式使用广泛。</p>
+<h3 id="UTF-8"><a href="#UTF-8" class="headerlink" title="UTF-8"></a>UTF-8</h3><p>UTF-8 是一个非常惊艳的编码方式，漂亮的<strong>实现了对 ASCII 码的向后兼容</strong>，以保证 Unicode 可以被大众接受。</p>
+<p><strong>UTF-8 是目前互联网上使用最广泛的一种 Unicode 编码方式</strong>，它的最大特点就是<strong>可变长。它可以使用 1 - 4 个字节表示一个字符，根据字符的不同变换长度</strong>。编码规则如下：</p>
+<ol>
+<li>对于单个字节的字符，第一位设为 0，后面的 7 位对应这个字符的 Unicode 码点。因此，对于英文中的 0 - 127 号字符，与 ASCII 码完全相同。这意味着 ASCII 码那个年代的文档用 UTF-8 编码打开完全没有问题。</li>
+<li>对于需要使用 N 个字节来表示的字符（N &gt; 1），第一个字节的前 N 位都设为 1，第 N + 1 位设为 0，剩余的 N - 1 个字节的前两位都设位 10，剩下的二进制位则使用这个字符的 Unicode 码点来填充。</li>
+</ol>
+<p>编码规则如下：</p>
+<table>
+<thead>
+<tr>
+<th align="left">Unicode 十六进制码点范围</th>
+<th align="left">UTF-8 二进制</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">0000 0000 - 0000 007F</td>
+<td align="left">0xxxxxxx</td>
+</tr>
+<tr>
+<td align="left">0000 0080 - 0000 07FF</td>
+<td align="left">110xxxxx 10xxxxxx</td>
+</tr>
+<tr>
+<td align="left">0000 0800 - 0000 FFFF</td>
+<td align="left">1110xxxx 10xxxxxx 10xxxxxx</td>
+</tr>
+<tr>
+<td align="left">0001 0000 - 0010 FFFF</td>
+<td align="left">11110xxx 10xxxxxx 10xxxxxx 10xxxxxx</td>
+</tr>
+</tbody></table>
+<h4 id="编码过程"><a href="#编码过程" class="headerlink" title="编码过程"></a>编码过程</h4><p>下图展示了中文“我”的UTF-8的编码过程，最终得到的结果是0xE68891</p>
+<p><img src="https://chromer-blog.oss-cn-shanghai.aliyuncs.com/blog/image-20220320174733759-4e87c30dcf657497ade3913b1b7a6fb0c478f49d0e06f39ae13531ed1e06c12e.png" alt="image-20220320174733759"></p>
+<p><img src="https://chromer-blog.oss-cn-shanghai.aliyuncs.com/blog/image-20220326225545448-e03623515fcac258c665e877a9acff55d58af34568edb349df8d9b4fa2ebe60d.png" alt="image-20220326225545448"></p>
+<h3 id="UTF-16"><a href="#UTF-16" class="headerlink" title="UTF-16"></a>UTF-16</h3><p>UTF-16 编码介于 UTF-32 与 UTF-8 之间，同时<strong>结合了定长和变长两种编码方法的特点</strong>。它的编码规则很简单：<strong>基本平面的字符占用 2 个字节，辅助平面的字符占用 4 个字节</strong>。也就是说，UTF-16 的编码长度要么是 2 个字节（U+0000 到 U+FFFF），要么是 4 个字节（U+010000 到 U+10FFFF）。那么问题来了，当我们遇到两个字节时，到底是把这两个字节当作一个字符还是与后面的两个字节一起当作一个字符呢？</p>
+<p>这里有一个很巧妙的地方，在基本平面内，从 U+D800 到 U+DFFF ($2^{11}$)是一个空段，即这些码点不对应任何字符。因此，这个空段可以用来映射辅助平面的字符。</p>
+<p>辅助平面的字符位共有 $2^{20}$ 个，因此表示这些字符至少需要 20 个二进制位。UTF-16 将这 20 个二进制位分成两半，前 10 位映射在 U+D800 到 U+DBFF（空间大小 $2^{10}$），称为高位（H），后 10 位映射在 U+DC00 到 U+DFFF（空间大小 $2^{10}$），称为低位（L）。这意味着，一个辅助平面的字符，被拆成两个基本平面的字符表示。</p>
+<p>因此，当我们遇到两个字节，发现它的码点在 U+D800 到 U+DBFF 之间，就可以断定，紧跟在后面的两个字节的码点，应该在 U+DC00 到 U+DFFF 之间，这四个字节必须放在一起解码。</p>
+<p>下面以古汉字“𠮷”为例，展示下UTF-16编码过程。</p>
+<p><img src="https://chromer-blog.oss-cn-shanghai.aliyuncs.com/blog/image-20220326234610643-dcc8023249489b472b7294466b55c330cafe40e3155c5e980efb6cf221771058.png" alt="image-20220326234610643"></p>
+
+      </div>
+      
+      <footer class="post-footer">
+        
+        <nav class="post-nav"><a class="next" href="/2022/01/15/%E5%88%9D%E8%AF%86Tapable/">
+        <span class="next-text nav-default">初识Tapable</span>
+        <span class="prev-text nav-mobile">Next</span>
+        <i class="iconfont icon-right"></i>
+      </a>
+    </nav></footer>
+    </article></div><div class="comments" id="comments"></div></div>
+      </main>
+
+      <footer id="footer" class="footer"><div class="social-links"><a href="mailto:chuliang2013@gmail.com" class="iconfont icon-email" title="email"></a>
+        <a target="_blank" rel="noopener" href="https://github.com/narutohinata" class="iconfont icon-github" title="github"></a>
+        <a href="/atom.xml" class="iconfont icon-rss" title="rss"></a>
+    </div><div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" target="_blank" rel="noopener" href="https://github.com/ahonn/hexo-theme-even">Even</a>
+  </span>
+
+  <span class="copyright-year">&copy;2016 - 2022<span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">chromer</span>
+  </span>
+</div>
+</footer>
+
+      <div class="back-to-top" id="back-to-top">
+        <i class="iconfont icon-up"></i>
+      </div>
+    </div><script type="text/javascript" src="/lib/jquery/jquery.min.js"></script>
+  <script type="text/javascript" src="/lib/slideout/slideout.js"></script>
+  <script type="text/javascript" src="/lib/fancybox/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/src/even.js?v=2.11.1"></script>
+</body>
+</html>

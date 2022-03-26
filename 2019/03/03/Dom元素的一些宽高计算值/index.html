@@ -13,7 +13,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
 
-<meta name="description" content="Dom元素的一些宽高计算值"/><link rel="alternate" href="/atom.xml" title="Chromer's Blog" type="application/atom+xml"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=2.11.1" />
+<meta name="description" content="Dom元素的一些宽高计算值"/><meta name="keywords" content="css, dom, Chromer's Blog" /><link rel="alternate" href="/atom.xml" title="Chromer's Blog" type="application/atom+xml"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=2.11.1" />
 <link rel="canonical" href="http://narutohinata.github.io/2019/03/03/Dom元素的一些宽高计算值/"/>
 
 <link rel="stylesheet" type="text/css" href="/lib/fancybox/jquery.fancybox.css" />
@@ -104,24 +104,27 @@
     <div class="post-toc" id="post-toc">
     <h2 class="post-toc-title">Contents</h2>
     <div class="post-toc-content">
-      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Dom%E5%85%83%E7%B4%A0%E7%9A%84%E4%B8%80%E4%BA%9B%E5%AE%BD%E9%AB%98%E8%AE%A1%E7%AE%97%E5%80%BC"><span class="toc-text">Dom元素的一些宽高计算值</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#HTMLElement-offsetWidth-HTMLElement-offsetHeight"><span class="toc-text">HTMLElement.offsetWidth&#x2F;HTMLElement.offsetHeight</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Element-clientWidth-Element-clientHeight"><span class="toc-text">Element.clientWidth&#x2F;Element.clientHeight</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Element-scrollWidth-Element-scrollHeight"><span class="toc-text">Element.scrollWidth&#x2F;Element.scrollHeight</span></a></li></ol></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Dom%E5%85%83%E7%B4%A0%E7%9A%84%E4%B8%80%E4%BA%9B%E5%AE%BD%E9%AB%98%E8%AE%A1%E7%AE%97%E5%80%BC"><span class="toc-text">Dom元素的一些宽高计算值</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#HTMLElement-offsetWidth-Height"><span class="toc-text">HTMLElement.offsetWidth&#x2F;Height</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Element-clientWidth-Height"><span class="toc-text">Element.clientWidth&#x2F;Height</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Element-scrollWidth-Height"><span class="toc-text">Element.scrollWidth&#x2F;Height</span></a></li></ol></li></ol>
     </div>
-  </div><div class="post-content"><h1 id="Dom元素的一些宽高计算值"><a href="#Dom元素的一些宽高计算值" class="headerlink" title="Dom元素的一些宽高计算值"></a>Dom元素的一些宽高计算值</h1><h2 id="HTMLElement-offsetWidth-HTMLElement-offsetHeight"><a href="#HTMLElement-offsetWidth-HTMLElement-offsetHeight" class="headerlink" title="HTMLElement.offsetWidth/HTMLElement.offsetHeight"></a>HTMLElement.offsetWidth/HTMLElement.offsetHeight</h2><p><code>HTMLElement.offsetWidth/HTMLElement.offsetHight</code> 是一个只读属性, 返回一个元素的布局宽度/高度。一般来说(各个浏览器的实现可能不一致) offsetWidth/offsetHeight是测量包含元素的边框(border)、内边距(padding)、滚动条(scrollbar)、以及CSS设置的size值。</p>
+  </div><div class="post-content"><h1 id="Dom元素的一些宽高计算值"><a href="#Dom元素的一些宽高计算值" class="headerlink" title="Dom元素的一些宽高计算值"></a>Dom元素的一些宽高计算值</h1><h2 id="HTMLElement-offsetWidth-Height"><a href="#HTMLElement-offsetWidth-Height" class="headerlink" title="HTMLElement.offsetWidth/Height"></a>HTMLElement.offsetWidth/Height</h2><p><code>HTMLElement.offsetWidth/Hight</code> 是一个只读属性,  返回一个元素的布局宽度/高度。一般来说(各个浏览器的实现可能不一致) offsetWidth/Height是测量包含元素的边框(border)、内边距(padding)、滚动条(scrollbar)、以及CSS设置的size值。</p>
 <ul>
 <li> offsetWidth = content.width + paddingLeft + paddingRight + borderLeft + borderRight + verticalScrollbarWidth</li>
 <li>offsetHeight = content.width + paddingTop + paddingBottom + borderTop + borderBottom + horizontalScrollbarWidth</li>
 </ul>
-<h2 id="Element-clientWidth-Element-clientHeight"><a href="#Element-clientWidth-Element-clientHeight" class="headerlink" title="Element.clientWidth/Element.clientHeight"></a>Element.clientWidth/Element.clientHeight</h2><p><code>Element.clientWidth/Element.clientHeight</code> 属性表示一个元素的内部宽度/高度。该属性包含内边距padding,但是不包含边框border、外边距margin以及滚动条。 也就是说:</p>
+<h2 id="Element-clientWidth-Height"><a href="#Element-clientWidth-Height" class="headerlink" title="Element.clientWidth/Height"></a>Element.clientWidth/Height</h2><p><code>Element.clientWidth/Element.clientHeight</code> 属性表示一个元素的内部宽度/高度。该属性包含内边距padding,但是不包含边框border、外边距margin以及滚动条。 也就是说:</p>
 <ul>
 <li>Element.clientWidth = contentWidth + paddingLeft + paddingRight</li>
 <li>Element.clientHeight = contentHeight + paddingTop + paddingBottom</li>
 </ul>
 <p>值得注意的是内联元素(inline element)以及没有css样式的原始的clientWidth/clientHeight的属性值为0</p>
-<h2 id="Element-scrollWidth-Element-scrollHeight"><a href="#Element-scrollWidth-Element-scrollHeight" class="headerlink" title="Element.scrollWidth/Element.scrollHeight"></a>Element.scrollWidth/Element.scrollHeight</h2><p>Element.scrollWidth/Element.scrollHeight </p>
-
+<h2 id="Element-scrollWidth-Height"><a href="#Element-scrollWidth-Height" class="headerlink" title="Element.scrollWidth/Height"></a>Element.scrollWidth/Height</h2>
       </div>
       
       <footer class="post-footer">
+        <div class="post-tags">
+            <a href="/tags/css/">css</a>
+            <a href="/tags/dom/">dom</a>
+            </div>
         
         <nav class="post-nav"><a class="prev" href="/2020/01/01/Commonjs%E6%98%AF%E5%A6%82%E6%9E%9C%E5%A4%84%E7%90%86%E5%BE%AA%E7%8E%AF%E4%BE%9D%E8%B5%96%E7%9A%84/">
         <i class="iconfont icon-left"></i>
