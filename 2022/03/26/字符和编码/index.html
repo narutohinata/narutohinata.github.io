@@ -235,7 +235,7 @@
 <p>因此，当我们遇到两个字节，发现它的码点在 U+D800 到 U+DBFF 之间，就可以断定，紧跟在后面的两个字节的码点，应该在 U+DC00 到 U+DFFF 之间，这四个字节必须放在一起解码。</p>
 <h4 id="编码过程-1"><a href="#编码过程-1" class="headerlink" title="编码过程"></a>编码过程</h4><p>下面以古汉字“𠮷”为例，展示下UTF-16编码过程。</p>
 <p><img src="https://chromer-blog.oss-cn-shanghai.aliyuncs.com/blog/image-20220326234610643-dcc8023249489b472b7294466b55c330cafe40e3155c5e980efb6cf221771058.png" alt="image-20220326234610643"></p>
-<h4 id="BOM"><a href="#BOM" class="headerlink" title="BOM"></a>BOM</h4><p>我们到VsCode验证下结果</p>
+<h4 id="BOM"><a href="#BOM" class="headerlink" title="BOM"></a>BOM</h4><p>我们到Vscode里验证下结果</p>
 <p><img src="https://chromer-blog.oss-cn-shanghai.aliyuncs.com/blog/image-20220327171846035-a11a95fe63bd2cf780e7e7955e5a0c381d66c1b6a3eafb5b52a58f3a39067dc0.png" alt="image-20220327171846035"></p>
 <p>好像有点不对劲，我们看到多了两个字节0xFE和0xFF，这两个字节是干什么的呢？其实这两个字节是用来标识字节序的，有个官方称呼叫<strong>BOM</strong>(byte-order mark)。</p>
 <p>其中<strong>UTF-16 BE（大端序）</strong> BOM为<code>0xFE 0xFF</code>， <strong>UTF-16 LE</strong>（小端序）BOM为<code>0xFF 0xFE</code>。</p>
