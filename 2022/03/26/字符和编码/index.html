@@ -234,7 +234,7 @@
 <p>辅助平面的字符位共有 $2^{20}$ 个，因此表示这些字符至少需要 20 个二进制位。UTF-16 将这 20 个二进制位分成两半，前 10 位映射在 U+D800 到 U+DBFF（空间大小 $2^{10}$），称为高位（H），后 10 位映射在 U+DC00 到 U+DFFF（空间大小 $2^{10}$），称为低位（L）。这意味着，一个辅助平面的字符，被拆成两个基本平面的字符表示。</p>
 <p>因此，当我们遇到两个字节，发现它的码点在 U+D800 到 U+DBFF 之间，就可以断定，紧跟在后面的两个字节的码点，应该在 U+DC00 到 U+DFFF 之间，这四个字节必须放在一起解码。</p>
 <h4 id="编码过程-1"><a href="#编码过程-1" class="headerlink" title="编码过程"></a>编码过程</h4><p>下面以古汉字“𠮷”为例，展示下UTF-16编码过程。</p>
-<p><img src="https://chromer-blog.oss-cn-shanghai.aliyuncs.com/blog/image-20220326234610643-dcc8023249489b472b7294466b55c330cafe40e3155c5e980efb6cf221771058.png" alt="image-20220326234610643"></p>
+<p><img src="https://chromer-blog.oss-cn-shanghai.aliyuncs.com/blog/image-20220328233422693-815f38585a9531d5dce12920fda936382673ba6981bc5d2c1d7bbd71a4afe848.png" alt="image-20220328233422693" style="zoom:50%;" /></p>
 <h4 id="BOM"><a href="#BOM" class="headerlink" title="BOM"></a>BOM</h4><p>我们到Vscode里验证下结果</p>
 <p><img src="https://chromer-blog.oss-cn-shanghai.aliyuncs.com/blog/image-20220327171846035-a11a95fe63bd2cf780e7e7955e5a0c381d66c1b6a3eafb5b52a58f3a39067dc0.png" alt="image-20220327171846035"></p>
 <p>好像有点不对劲，我们看到多了两个字节0xFE和0xFF，这两个字节是干什么的呢？其实这两个字节是用来标识字节序的，有个官方称呼叫<strong>BOM</strong>(byte-order mark)。</p>
