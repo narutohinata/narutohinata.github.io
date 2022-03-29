@@ -226,6 +226,99 @@
 </tbody>
 </table>
 </div>
+<p>Unicode 和 UTF-8 之间的转换关系表 ( <code>x</code> 字符表示码点占据的位 )如下:</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">码点的位数</th>
+<th style="text-align:center">码点起值</th>
+<th style="text-align:center">码点终值</th>
+<th style="text-align:center">字节序列</th>
+<th style="text-align:center">Byte 1</th>
+<th style="text-align:center">Byte 2</th>
+<th style="text-align:center">Byte 3</th>
+<th style="text-align:center">Byte 4</th>
+<th style="text-align:center">Byte 5</th>
+<th style="text-align:center">Byte 6</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">7</td>
+<td style="text-align:center">U+0000</td>
+<td style="text-align:center">U+007F</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center"><code>0xxxxxxx</code></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">11</td>
+<td style="text-align:center">U+0080</td>
+<td style="text-align:center">U+07FF</td>
+<td style="text-align:center">2</td>
+<td style="text-align:center"><code>110xxxxx</code></td>
+<td style="text-align:center"><code>10xxxxxx</code></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">16</td>
+<td style="text-align:center">U+0800</td>
+<td style="text-align:center">U+FFFF</td>
+<td style="text-align:center">3</td>
+<td style="text-align:center"><code>1110xxxx</code></td>
+<td style="text-align:center"><code>10xxxxxx</code></td>
+<td style="text-align:center"><code>10xxxxxx</code></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">21</td>
+<td style="text-align:center">U+10000</td>
+<td style="text-align:center">U+1FFFFF</td>
+<td style="text-align:center">4</td>
+<td style="text-align:center"><code>11110xxx</code></td>
+<td style="text-align:center"><code>10xxxxxx</code></td>
+<td style="text-align:center"><code>10xxxxxx</code></td>
+<td style="text-align:center"><code>10xxxxxx</code></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">26</td>
+<td style="text-align:center">U+200000</td>
+<td style="text-align:center">U+3FFFFFF</td>
+<td style="text-align:center">5</td>
+<td style="text-align:center"><code>111110xx</code></td>
+<td style="text-align:center"><code>10xxxxxx</code></td>
+<td style="text-align:center"><code>10xxxxxx</code></td>
+<td style="text-align:center"><code>10xxxxxx</code></td>
+<td style="text-align:center"><code>10xxxxxx</code></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">31</td>
+<td style="text-align:center">U+4000000</td>
+<td style="text-align:center">U+7FFFFFFF</td>
+<td style="text-align:center">6</td>
+<td style="text-align:center"><code>1111110x</code></td>
+<td style="text-align:center"><code>10xxxxxx</code></td>
+<td style="text-align:center"><code>10xxxxxx</code></td>
+<td style="text-align:center"><code>10xxxxxx</code></td>
+<td style="text-align:center"><code>10xxxxxx</code></td>
+<td style="text-align:center"><code>10xxxxxx</code></td>
+</tr>
+</tbody>
+</table>
+</div>
 <h4 id="编码过程"><a href="#编码过程" class="headerlink" title="编码过程"></a>编码过程</h4><p>下图展示了中文“我”的UTF-8的编码过程，最终得到的结果是0xE68891</p>
 <p><img src="https://chromer-blog.oss-cn-shanghai.aliyuncs.com/blog/image-20220320174733759-4e87c30dcf657497ade3913b1b7a6fb0c478f49d0e06f39ae13531ed1e06c12e.png" alt="image-20220320174733759"></p>
 <p><img src="https://chromer-blog.oss-cn-shanghai.aliyuncs.com/blog/image-20220326225545448-e03623515fcac258c665e877a9acff55d58af34568edb349df8d9b4fa2ebe60d.png" alt="image-20220326225545448"></p>
