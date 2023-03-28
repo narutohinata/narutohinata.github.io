@@ -3,7 +3,7 @@ language: node_js
 install:
   - yarn
 node_js:
-  - 13 # use nodejs v13 LTS-
+  - 16.15.1 # use nodejs v13 LTS-
 after_success:
   - git config --global user.name "chromer"
   - git config --global user.email "chuliang2013@gmail.com"
